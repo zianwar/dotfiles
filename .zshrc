@@ -55,6 +55,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 
 # Ensures that a specific version of node is used inside a specific folder
-if [[ ! -a $DOTFILES/node-version-adapter.zsh ]]; then
+if [[ -a $DOTFILES/node-version-adapter.zsh ]]; then
   source $DOTFILES/node-version-adapter.zsh
 fi
