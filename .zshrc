@@ -12,7 +12,7 @@ source $DOTFILES/functions.zsh
 source $DOTFILES/secrets.zsh
 
 # oh-my-zsh plugins
-plugins=(git osx zsh-completions history zsh-syntax-highlighting colorize docker z bgnotify command-not-found gitignore golang)
+plugins=(git osx zsh-completions history zsh-syntax-highlighting colorize docker z command-not-found gitignore golang)
 source $ZSH/oh-my-zsh.sh
 eval $(/usr/libexec/path_helper -s)
 autoload -U compinit && compinit
