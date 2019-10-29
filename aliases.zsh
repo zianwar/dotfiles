@@ -1,16 +1,9 @@
-# Push and pop directories on directory stack
-alias pu='pushd'
-alias po='popd'
-
 # Basic directory operations
 alias ...='cd ../..'
 alias -- -='cd -'
 
 # List direcory contents
-alias lsa='ls -lah'
 alias l='ls -lah'
-alias ll='ls -lh'
-alias la='ls -lAh'
 
 # Super user
 alias _='sudo'
@@ -36,19 +29,17 @@ alias afind='ack-grep -il'
 
 # .zshrc
 alias sourcez="source ~/.zshrc"
-alias editz="code ~/.zshrc"
+alias codez="code ~/.zshrc"
 
 # Overwites
 alias df='df -h'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
 
-# Favorite folders
+# Moving around folders
 alias desk='cd ~/Desktop'
-alias p='cd ~/Adcolony/portal'
-alias pn='cd ~/Adcolony/portal/adc2-ui-node'
-alias pm='cd ~/Adcolony/portal/adc2-ui-models'
 alias dl="cd ~/Downloads"
+alias p='cd ~/Adcolony/portal'
 alias c="cd ~/Code"
 alias gopz="cd ~/gocode/src/github.com/zianwar"
 
@@ -143,5 +134,5 @@ alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 
-# Curl with Google Cloud Authorization
+# curl with Google Cloud Authorization
 alias gcurl='curl --header "Authorization: Bearer $(gcloud config config-helper --format=value\(credential.id_token\))"'
