@@ -18,16 +18,16 @@ eval $(/usr/libexec/path_helper -s)
 autoload -U compinit && compinit
 
 # User configuration
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin
-
-# Git
-export PATH="$PATH:/usr/local/git/bin:/usr/bin/git"
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
 
 # SSH key path
 export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# MYSQL commands
+export PATH="$PATH:/usr/local/mysql/bin"
 
 # MYSQL commands
 export PATH="$PATH:/usr/local/mysql/bin"

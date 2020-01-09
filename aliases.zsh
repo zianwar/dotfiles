@@ -145,3 +145,6 @@ alias reload="exec $SHELL -l"
 
 # Curl with Google Cloud Authorization
 alias gcurl='curl --header "Authorization: Bearer $(gcloud config config-helper --format=value\(credential.id_token\))"'
+
+alias lzg='lazygit'
+alias lzd='lazydocker'
