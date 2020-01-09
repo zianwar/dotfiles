@@ -1,16 +1,9 @@
-# Push and pop directories on directory stack
-alias pu='pushd'
-alias po='popd'
-
 # Basic directory operations
 alias ...='cd ../..'
 alias -- -='cd -'
 
 # List direcory contents
-alias lsa='ls -lah'
 alias l='ls -lah'
-alias ll='ls -lh'
-alias la='ls -lAh'
 
 # Super user
 alias _='sudo'
@@ -36,19 +29,17 @@ alias afind='ack-grep -il'
 
 # .zshrc
 alias sourcez="source ~/.zshrc"
-alias editz="code ~/.zshrc"
+alias codez="code ~/.zshrc"
 
 # Overwites
 alias df='df -h'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
 
-# Favorite folders
+# Moving around folders
 alias desk='cd ~/Desktop'
-alias p='cd ~/Adcolony/portal'
-alias pn='cd ~/Adcolony/portal/adc2-ui-node'
-alias pm='cd ~/Adcolony/portal/adc2-ui-models'
 alias dl="cd ~/Downloads"
+alias p='cd ~/Adcolony/portal'
 alias c="cd ~/Code"
 alias gopz="cd ~/gocode/src/github.com/zianwar"
 
