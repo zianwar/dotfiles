@@ -1,13 +1,6 @@
-# Basic directory operations
-alias ...='cd ../..'
-alias -- -='cd -'
-
-# List direcory contents
+# Basic filesystem navigation operations
 alias l='ls -lah'
-
-# Super user
-alias _='sudo'
-alias please='sudo'
+alias ...='cd ../..'
 
 # Show history
 if [ "$HIST_STAMPS" = "mm/dd/yyyy" ]
@@ -87,16 +80,9 @@ alias dockspace="defaults write com.apple.dock persistent-apps -array-add '{tile
 
 # ----------------------- Imported stuff --------------------------
 
-# Get week number
-alias week='date +%V'
-
-# Get OS X Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
-alias update='sudo softwareupdate -i -a; brew update; brew upgrade --all; brew cleanup; npm install npm -g; npm update -g; sudo gem update --system; sudo gem update'
-
 # IP addresses
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias publicip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
-alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
 # Flush Directory Service cache
 alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
@@ -121,8 +107,8 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 alias map="xargs -n1"
 
 # Stuff I never really use but cannot delete either because of http://xkcd.com/530/
-alias stfu="osascript -e 'set volume output muted true'"
-alias pumpitup="osascript -e 'set volume 7'"
+alias mutevolume="osascript -e 'set volume output muted true'"
+alias maxvolume="osascript -e 'set volume 7'"
 
 # Kill all the tabs in Chrome to free up memory
 # [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
