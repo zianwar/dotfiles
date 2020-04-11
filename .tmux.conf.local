@@ -87,7 +87,7 @@ tmux_conf_theme_mode_attr='bold'
 
 # status line style
 tmux_conf_theme_status_fg='#8a8a8a'                     # light gray
-tmux_conf_theme_status_bg='#080808'                     # dark gray
+tmux_conf_theme_status_bg='#1F1F1F'                     # dark gray
 tmux_conf_theme_status_attr='none'
 
 # terminal title
@@ -179,8 +179,8 @@ tmux_conf_theme_right_separator_sub='|'
 #     - #{uptime_s}
 #     - #{username}
 #     - #{username_ssh}
-tmux_conf_theme_status_left=' ❐ #S'
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} #(tmux-mem-cpu-load -pq -i 2 -m 2 -a 0 -g 5)| #{username}#{root} | #{hostname} '
+tmux_conf_theme_status_left=' ❐ #S '
+tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized}#(tmux-mem-cpu-load -pq -i 2 -m 2 -a 0 -g 5)| #{username}#{root} | #{hostname} '
 
 # status left style
 tmux_conf_theme_status_left_fg='#000000,#e4e4e4,#e4e4e4'  # black, white , white
@@ -201,7 +201,7 @@ tmux_conf_theme_pairing_attr='none'
 # prefix indicator
 tmux_conf_theme_prefix='⌨ '            # U+2328
 tmux_conf_theme_prefix_fg='none'
-tmux_conf_theme_prefix_bg='none'
+tmux_conf_theme_prefix_bg='#1F1F1F'
 tmux_conf_theme_prefix_attr='none'
 
 # root indicator
