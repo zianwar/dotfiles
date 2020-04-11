@@ -78,6 +78,8 @@ alias mg='/usr/local/bin/mongod --dbpath /usr/local/var/mongodb'
 # Add space to dock
 alias dockspace="defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'; killall Dock"
 
+alias note="code ~/Dropbox/logs/logs.taskpaper"
+
 # ----------------------- Imported stuff --------------------------
 
 # IP addresses
