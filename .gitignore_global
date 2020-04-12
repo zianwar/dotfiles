@@ -1,7 +1,8 @@
 # An example global gitignore file
 #
 # Place a copy if this at ~/.gitignore_global
-# Run `git config --global core.excludesfile ~/.gitignore_global`
+# Run `git config --global core.excludesfile ~/.gitignore_global` or
+# set `excludesfile = ~/.gitignore_global` under [core] in .gitconfig
 
 # Compiled source #
 ###################
