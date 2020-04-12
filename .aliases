@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 # Basic filesystem navigation operations
 alias l='ls -lah'
 alias ...='cd ../..'

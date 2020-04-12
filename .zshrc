@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 # Path to oh-my-zsh installation.
 
 export DOTFILES=$HOME/.dotfiles
