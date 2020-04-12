@@ -23,9 +23,5 @@ source $ZSH/oh-my-zsh.sh
 eval $(/usr/libexec/path_helper -s)
 autoload -U compinit && compinit
 
-# gcloud path completion
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
-
 # iTerm2 shell integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
