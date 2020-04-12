@@ -57,3 +57,27 @@ function jira {
 function anybar {
   echo -n $1 | nc -4u -w0 localhost ${2:-1738};
 }
+
+# open github repo from git repo
+function hb() {
+  # from https://jasonmccreary.me/articles/open-github-command-line/
+  github_url=`git remote -v | awk '/fetch/{print $2}' | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's%\.git$%%' | awk '/github/'`;
+  open $github_url
+}
+
+# inside tmux: only exit if we're not on the last pane
+exit() {
+  if [[ -z $TMUX ]]; then
+    builtin exit
+    return
+  fi
+
+  panes=$(tmux list-panes | wc -l)
+  wins=$(tmux list-windows | wc -l)
+  count=$(($panes + $wins - 1))
+  if [ $count -eq 1 ]; then
+    tmux detach
+  else
+    builtin exit
+  fi
+}
