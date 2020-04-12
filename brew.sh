@@ -62,6 +62,7 @@ brew install woff2
 # Install other useful binaries.
 brew install git
 brew install git-lfs
+brew install shellcheck
 brew install python@3
 brew install node
 brew install nvm # Manage multiple Node.js versions

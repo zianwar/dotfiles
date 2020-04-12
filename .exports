@@ -12,7 +12,11 @@ export SSH_KEY_PATH="~/.ssh/dsa_id"
 # MYSQL commands
 export PATH="$PATH:/usr/local/mysql/bin"
 
+# Prefer US English and use UTF-8.
 export LANG=en_US.UTF-8
+export LC_ALL='en_US.UTF-8';
+
+# Default terminal editor
 export EDITOR='nano'
 
 # Golang
@@ -26,3 +30,11 @@ export PATH="$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+
+# Enable persistent REPL history for `node`.
+export NODE_REPL_HISTORY_FILE=~/.node_history;
+# Allow 32³ entries; the default is 1000.
+export NODE_REPL_HISTORY_SIZE='32768';
+
+# Always enable colored `grep` output.
+export GREP_OPTIONS='--color=auto';
