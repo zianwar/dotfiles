@@ -1,2 +1,2 @@
-*secrets.zsh
-node-version-adapter.zsh
+*.extra
+**/extra

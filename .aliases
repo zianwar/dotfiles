@@ -3,19 +3,7 @@ alias l='ls -lah'
 alias ...='cd ../..'
 
 # Show history
-if [ "$HIST_STAMPS" = "mm/dd/yyyy" ]
-then
-    alias history='fc -fl 1'
-elif [ "$HIST_STAMPS" = "dd.mm.yyyy" ]
-then
-    alias history='fc -El 1'
-elif [ "$HIST_STAMPS" = "yyyy-mm-dd" ]
-then
-    alias history='fc -il 1'
-else
-    alias history='fc -l 1'
-fi
-
+alias history='fc -l 1'
 alias afind='ack-grep -il'
 
 # ----------------------- My aliases --------------------------
@@ -65,7 +53,7 @@ alias chrome="open -a /Applications/Google\ Chrome.app"
 alias h="history"
 
 # Directory tree view
-alias t="tree -C"
+alias t="tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX"
 
 # Laravel Artisan
 alias pa="php artisan"
