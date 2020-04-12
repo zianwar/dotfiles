@@ -2,16 +2,6 @@
 alias l='ls -lah'
 alias ...='cd ../..'
 
-# Show history
-alias history='fc -l 1'
-alias afind='ack-grep -il'
-
-# ----------------------- My aliases --------------------------
-
-# .zshrc
-alias sourcez="source ~/.zshrc"
-alias codez="code ~/.zshrc"
-
 # Overwites
 alias df='df -h'
 alias mv='mv -i'
@@ -22,17 +12,27 @@ alias desk='cd ~/Desktop'
 alias dl="cd ~/Downloads"
 alias p='cd ~/Adcolony/portal'
 alias c="cd ~/Code"
-alias gopz="cd ~/gocode/src/github.com/zianwar"
 
-# MySql
+# Directory tree view
+alias t="tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX"
+
+# Show history
+alias history='fc -l 1'
+alias h="history"
+
+# .zshrc edit
+alias sourcez="source ~/.zshrc"
+alias codez="code ~/.zshrc"
+
+# mysql
 alias startmysql='mysql.server start'
 alias stopmysql='mysql.server stop'
 alias restartmysql='mysql.server restart'
 
-# Apache
-alias startapache='sudo apachectl start'
-alias stopapache='sudo apachectl stop'
-alias restartapache='sudo apachectl restart'
+# Mongodb
+alias startmongo="launchctl start org.mongodb.mongod"
+alias stopmongo="launchctl stop org.mongodb.mongod"
+alias mg='/usr/local/bin/mongod --dbpath /usr/local/var/mongodb'
 
 # Git
 alias gpull='git pull'
@@ -45,40 +45,18 @@ alias gco='git commit'
 alias gch='git checkout'
 alias gshow='git show'
 
-# Browsers
-alias firefox="open -a /Applications/Firefox.app"
-alias chrome="open -a /Applications/Google\ Chrome.app"
-
-# History
-alias h="history"
-
-# Directory tree view
-alias t="tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX"
-
 # Laravel Artisan
 alias pa="php artisan"
-
-# Mongodb
-alias startmongo="launchctl start org.mongodb.mongod"
-alias stopmongo="launchctl stop org.mongodb.mongod"
-alias mg='/usr/local/bin/mongod --dbpath /usr/local/var/mongodb'
 
 # Add space to dock
 alias dockspace="defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'; killall Dock"
 
+# record note
 alias note="code ~/Dropbox/logs/logs.taskpaper"
 
-# ----------------------- Imported stuff --------------------------
-
-# IP addresses
+# public and local IP addresses
 alias publicip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
-
-# Flush Directory Service cache
-alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
-
-# Clean up LaunchServices to remove duplicates in the "Open With" menu
-alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
 
 # Recursively delete `.DS_Store` files
 alias dsstore="find . -type f -name '*.DS_Store' -ls -delete"
@@ -100,18 +78,8 @@ alias map="xargs -n1"
 alias mutevolume="osascript -e 'set volume output muted true'"
 alias maxvolume="osascript -e 'set volume 7'"
 
-# Kill all the tabs in Chrome to free up memory
-# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
-alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
-
-# Lock the screen (when going AFK)
-alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 
 # Curl with Google Cloud Authorization
 alias gcurl='curl --header "Authorization: Bearer $(gcloud config config-helper --format=value\(credential.id_token\))"'
-
-alias lzg='lazygit'
-alias lzd='lazydocker'
