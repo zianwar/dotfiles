@@ -7,6 +7,7 @@ alias ...='cd ../..'
 # Overwites
 alias df='df -h'
 alias mv='mv -i'
+alias cp='cp -i'
 alias mkdir='mkdir -p'
 
 # Moving around folders
@@ -85,3 +86,7 @@ alias reload="exec $SHELL -l"
 
 # Curl with Google Cloud Authorization
 alias gcurl='curl --header "Authorization: Bearer $(gcloud config config-helper --format=value\(credential.id_token\))"'
+
+# Merge PDF files
+# Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
+alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
