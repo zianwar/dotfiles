@@ -12,10 +12,9 @@ sync:
 
 clean:
 	rm -f ~/.zshrc
-	rm -f ~/.tmux.conf
-	rm -f ~/.tmux.conf.local
-	rm -f ~/.git-prompt.sh
 	rm -f ~/.gitconfig
 	rm -f ~/.gitignore_global
+	rm -f ~/.tmux.conf
+	rm -f ~/.tmux.conf.local
 
 .PHONY: all clean sync build run kill
