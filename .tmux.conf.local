@@ -87,7 +87,7 @@ tmux_conf_theme_mode_attr='bold'
 
 # status line style
 tmux_conf_theme_status_fg='#8a8a8a'                     # light gray
-tmux_conf_theme_status_bg='#1F1F1F'                     # dark gray
+tmux_conf_theme_status_bg='#282C35'                     # dark gray
 tmux_conf_theme_status_attr='none'
 
 # terminal title
@@ -109,9 +109,9 @@ tmux_conf_theme_terminal_title='❐ #S ● #I #W'
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_window_status_fg='#8a8a8a'              # light gray
-tmux_conf_theme_window_status_bg='#080808'              # dark gray
+tmux_conf_theme_window_status_bg='#282C35'              # dark gray
 tmux_conf_theme_window_status_attr='none'
-tmux_conf_theme_window_status_format='#I #W'
+tmux_conf_theme_window_status_format=' #I #W '
 #tmux_conf_theme_window_status_format='#{circled_window_index} #W'
 #tmux_conf_theme_window_status_format='#I #W#{?window_bell_flag,🔔,}#{?window_zoomed_flag,🔍,}'
 
@@ -180,7 +180,7 @@ tmux_conf_theme_right_separator_sub='|'
 #     - #{username}
 #     - #{username_ssh}
 tmux_conf_theme_status_left=' ❐ #S '
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized}#(tmux-mem-cpu-load -pq -i 2 -m 2 -a 0 -g 5)| #{username}#{root} | #{hostname} '
+tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized}| #{username}#{root} '
 
 # status left style
 tmux_conf_theme_status_left_fg='#000000,#e4e4e4,#e4e4e4'  # black, white , white
@@ -189,7 +189,7 @@ tmux_conf_theme_status_left_attr='bold,none,none'
 
 # status right style
 tmux_conf_theme_status_right_fg='#8a8a8a,#e4e4e4,#000000' # light gray, white, black
-tmux_conf_theme_status_right_bg='#080808,#d70000,#e4e4e4' # dark gray, red, white
+tmux_conf_theme_status_right_bg='none' # '#080808,#d70000,#e4e4e4' # dark gray, red, white
 tmux_conf_theme_status_right_attr='none,none,bold'
 
 # pairing indicator
@@ -201,7 +201,7 @@ tmux_conf_theme_pairing_attr='none'
 # prefix indicator
 tmux_conf_theme_prefix='⌨ '            # U+2328
 tmux_conf_theme_prefix_fg='none'
-tmux_conf_theme_prefix_bg='#1F1F1F'
+tmux_conf_theme_prefix_bg='#2E333D'
 tmux_conf_theme_prefix_attr='none'
 
 # root indicator
@@ -268,7 +268,7 @@ tmux_conf_theme_clock_style='24'
 #   - false (default)
 # on macOS, this requires installing reattach-to-user-namespace, see README.md
 # on Linux, this requires xsel or xclip
-tmux_conf_copy_to_os_clipboard=false
+tmux_conf_copy_to_os_clipboard=true
 
 
 # -- user customizations -------------------------------------------------------
@@ -298,3 +298,15 @@ setw -g mouse on
 # Shift arrow to switch windows
 bind -n S-Left previous-window
 bind -n S-Right next-window
+
+# pane navigation
+bind -r Left select-pane -L  # move left
+bind -r Down select-pane -D  # move down
+bind -r Up select-pane -U  # move up
+bind -r Right select-pane -R  # move right
+
+# pane resizing
+bind -r S-Left resize-pane -L 2
+bind -r S-Down resize-pane -D 2
+bind -r S-Up resize-pane -U 2
+bind -r S-Right resize-pane -R 2
