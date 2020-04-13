@@ -1,16 +1,8 @@
 #!/usr/bin/env sh
 
 # Path to oh-my-zsh installation.
-
 export DOTFILES=$HOME/.dotfiles
 export ZSH="$DOTFILES/oh-my-zsh"
-
-# Load the shell dotfiles, and then some:
-# * ~/.extra can be used for other settings you don’t want to commit.
-for file in $DOTFILES/.{exports,aliases,functions,extra}; do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file";
-done;
-unset file;
 
 # oh-my-zsh variables
 ZSH_THEME="ep"
@@ -22,6 +14,13 @@ plugins=(git osx zsh-completions history zsh-syntax-highlighting colorize docker
 source $ZSH/oh-my-zsh.sh
 eval $(/usr/libexec/path_helper -s)
 autoload -U compinit && compinit
+
+# Load the shell dotfiles, and then some:
+# * ~/.extra can be used for other settings you don’t want to commit.
+for file in $DOTFILES/.{exports,aliases,functions,extra}; do
+	[ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
 
 # iTerm2 shell integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
