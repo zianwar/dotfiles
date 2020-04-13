@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 # Basic filesystem navigation operations
-alias l='ls -lah'
+alias l='exa -la --color-scale --group-directories-first'
 alias ...='cd ../..'
 
 # Overwites
@@ -90,3 +90,6 @@ alias gcurl='curl --header "Authorization: Bearer $(gcloud config config-helper 
 # Merge PDF files
 # Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
 alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
+
+# tmux default session
+alias tx="tmux a -t main || tmux new -s main"
