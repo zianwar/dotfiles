@@ -4,6 +4,16 @@ fh() {
   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
 
+# converts jsonl file to json
+to_json() {
+  cat $1 | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g'  | sed 's/n/,/' | sed 's/^/[/'| sed 's/$/]/' | jq . > $(basename "$1" .jsonl).json
+}
+
+# converts json file to csv
+to_csv() {
+  json2csv -i $1 -o $(basename "$1" .json).csv --flatten-objects --flatten-arrays
+}
+
 exportenv() {
   export $(xargs < $1)
 }
