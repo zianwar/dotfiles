@@ -59,10 +59,6 @@ function reset_git_history() {
   fi
 }
 
-function jira {
-  open https://jira.adcolony.net/browse/UIREDUX-$(current_branch | grep -o -E '\d{4}')
-}
-
 # AnyBar
 function anybar {
   echo -n $1 | nc -4u -w0 localhost ${2:-1738};
