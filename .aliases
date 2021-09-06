@@ -95,3 +95,6 @@ alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Re
 
 # tmux default session
 alias tx="tmux a -t main || tmux new -s main"
+
+alias rpi4="ssh ubuntu@192.168.1.100"
+alias rpi3="ssh ubuntu@192.168.1.101"
