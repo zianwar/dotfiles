@@ -1,8 +1,5 @@
 #!/usr/bin/env sh
 
-# User configuration
-# export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin
-
 # Compilation flags
 export ARCHFLAGS="-arch $(uname -m)"
 
