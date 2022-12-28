@@ -4,7 +4,6 @@
 alias ls='exa --group-directories-first'
 unalias l
 alias l='exa -la --color-scale --group-directories-first --git'
-alias ...='cd ../..'
 
 # Overwites
 alias df='df -h'
@@ -15,7 +14,6 @@ alias mkdir='mkdir -p'
 # Moving around folders
 alias desk='cd ~/Desktop'
 alias dl="cd ~/Downloads"
-alias p='cd ~/Adcolony/portal'
 alias c="cd ~/Code"
 
 # Directory tree view
@@ -50,14 +48,8 @@ alias gco='git commit'
 alias gch='git checkout'
 alias gshow='git show'
 
-# Laravel Artisan
-alias pa="php artisan"
-
 # Add space to dock
 alias dockspace="defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'; killall Dock"
-
-# record note
-alias note="code ~/Dropbox/logs/logs.taskpaper"
 
 # public and local IP addresses
 alias publicip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -83,18 +75,5 @@ alias map="xargs -n1"
 alias mutevolume="osascript -e 'set volume output muted true'"
 alias maxvolume="osascript -e 'set volume 7'"
 
-# Reload the shell (i.e. invoke as a login shell)
-alias reload="exec $SHELL -l"
-
-# Curl with Google Cloud Authorization
-alias gcurl='curl --header "Authorization: Bearer $(gcloud config config-helper --format=value\(credential.id_token\))"'
-
-# Merge PDF files
-# Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
-alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
-
 # tmux default session
 alias tx="tmux a -t main || tmux new -s main"
-
-alias rpi4="ssh ubuntu@192.168.1.100"
-alias rpi3="ssh ubuntu@192.168.1.101"

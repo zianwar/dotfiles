@@ -1,16 +1,13 @@
 #!/usr/bin/env sh
 
 # User configuration
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin
+# export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin
 
 # Compilation flags
-export ARCHFLAGS="-arch x86_64"
+export ARCHFLAGS="-arch $(uname -m)"
 
 # SSH key path
 export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# MYSQL commands
-export PATH="$PATH:/usr/local/mysql/bin"
 
 # Prefer US English and use UTF-8.
 export LANG=en_US.UTF-8
@@ -31,7 +28,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 export EDITOR='nano'
 
 # Golang
-export GOPATH=~/gocode
+export GOPATH=~/.go
 export PATH="$PATH:$GOPATH/bin"
 
 # Rust packages
