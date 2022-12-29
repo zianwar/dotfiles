@@ -14,15 +14,21 @@ ZSH_THEME="awesomepanda" # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 CASE_SENSITIVE="false"
 DISABLE_AUTO_UPDATE="true"
 
-# plugins
+# oh-my-zsh plugins
 plugins=(
-	git
-	zsh-completions
-	history
-	zsh-syntax-highlighting
-	zsh-autosuggestions
-	z
+	copybuffer # cltr-o to cppy terminal buffer
+	copyfile   # `copyfile <filename>` copies content of file
+	copypath   # copies current path
+	dirhistory # navigate cwd using keyboard
 	fzf
+	git
+	history
+	osx
+	zsh-autosuggestions
+	zsh-completions
+	zsh_reload # reload shell using `src` command
+	zsh-syntax-highlighting
+	z
 )
 
 # Homebrew Shell Completions in zsh
@@ -42,10 +48,15 @@ unset file;
 # fnm (Node package manager)
 eval "$(fnm env --use-on-cd)"
 
-# source "$ZSH/custom/exports.zsh"
-# source "$ZSH/custom/aliases.zsh"
+# pyenv (Python package manager)
+# https://github.com/pyenv/pyenv/blob/master/COMMANDS.md#
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
 
 # iTerm2 shell integration
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+# fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

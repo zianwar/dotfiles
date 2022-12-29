@@ -43,8 +43,16 @@ Includes:
     ```bash
     brew bundle # Installs what's listed in Brewfile
     ```
+7. Python
+   ```bash
+   brew install pyenv
+   
+   pyenv install 3.11.1
+   pyenv rehash
+   pyenv global 3.11.1
+   ```
 
 ### Manual Backups
-obsidian
-alfred
-iterm2
+obsidian  
+alfred  
+iterm2  
