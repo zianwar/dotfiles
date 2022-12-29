@@ -16,21 +16,21 @@ DISABLE_AUTO_UPDATE="true"
 
 # oh-my-zsh plugins
 plugins=(
-	copybuffer # cltr-o to cppy terminal buffer
-	copyfile   # `copyfile <filename>` copies content of file
-	copypath   # copies current path
-	dirhistory # navigate cwd using keyboard
-	# dotenv   # Automatically load your project ENV variables from .env file when you cd into project root directory
+	copybuffer 					# cltr-o to cppy terminal buffer
+	copyfile   					# `copyfile <filename>` copies content of file
+	copydir    					# copies current path
+	dirhistory 					# navigate cwd using keyboard
+	# dotenv   					# Automatically load your project ENV variables from .env file when you cd into project root directory
 	fzf
 	git
 	history
 	httpie
-	macos
+	osx
 	ripgrep
-	sudo       # Easily prefix your current or previous commands with sudo by pressing esc twice.
+	sudo       					# Easily prefix your current or previous commands with sudo by pressing esc twice.
 	zsh-autosuggestions
 	zsh-completions
-	zsh_reload # reload shell using `src` command
+	zsh_reload 				 	# reload shell using `src` command
 	zsh-syntax-highlighting
 	z
 )
