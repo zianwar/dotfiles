@@ -37,7 +37,6 @@ export PATH="$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 # Android SDK platform tools (Flutter development)
 export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
 
-
 ## Command history configuration
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=1000000
@@ -56,12 +55,12 @@ setopt inc_append_history
 typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
 
 # Enable persistent REPL history for `node`.
-export NODE_REPL_HISTORY_FILE=~/.node_history;
+export NODE_REPL_HISTORY_FILE=~/.node_history
 # Allow 32³ entries; the default is 1000.
-export NODE_REPL_HISTORY_SIZE='32768';
+export NODE_REPL_HISTORY_SIZE='32768'
 
 # Always enable colored `grep` output.
-export GREP_OPTIONS='--color=auto';
+export GREP_OPTIONS='--color=auto'
 
 # fnm (Node package manager)
 eval "$(fnm env --use-on-cd)"
@@ -71,3 +70,9 @@ eval "$(fnm env --use-on-cd)"
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+export IMGUR_CLIENT_ID=0c3cba15001fe3a
+
+# pnpm
+export PNPM_HOME="/Users/anwar/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"

@@ -24,9 +24,10 @@ alias history='fc -l 1'
 alias h="history"
 
 # .zshrc edit
-alias sourcez="source ~/.zshrc"
 alias codez="code ~/.zshrc"
 alias dotz="code ~/.dotfiles"
+
+alias o='open'
 
 # Git
 alias gpull='git pull'
