@@ -26,16 +26,7 @@ alias h="history"
 # .zshrc edit
 alias sourcez="source ~/.zshrc"
 alias codez="code ~/.zshrc"
-
-# mysql
-alias startmysql='mysql.server start'
-alias stopmysql='mysql.server stop'
-alias restartmysql='mysql.server restart'
-
-# Mongodb
-alias startmongo="launchctl start org.mongodb.mongod"
-alias stopmongo="launchctl stop org.mongodb.mongod"
-alias mg='/usr/local/bin/mongod --dbpath /usr/local/var/mongodb'
+alias dotz="code ~/.dotfiles"
 
 # Git
 alias gpull='git pull'

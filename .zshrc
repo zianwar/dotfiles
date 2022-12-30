@@ -6,13 +6,17 @@ export DOTFILES=$HOME/.dotfiles
 export ZSH="$DOTFILES/oh-my-zsh"
 export ZSH_CUSTOM=$ZSH/custom
 
-# Initialize homebrew
-eval $(/opt/homebrew/bin/brew shellenv)
-
 # oh-my-zsh config
 ZSH_THEME="awesomepanda" # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 CASE_SENSITIVE="false"
-DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="false"
+
+# Initialize homebrew
+eval $(/opt/homebrew/bin/brew shellenv)
+
+# Homebrew Shell Completions in zsh
+# https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
 # oh-my-zsh plugins
 plugins=(
@@ -35,10 +39,6 @@ plugins=(
 	z
 )
 
-# Homebrew Shell Completions in zsh
-# https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
 source $ZSH/oh-my-zsh.sh
 
 
@@ -48,15 +48,6 @@ for file in $DOTFILES/.{exports,aliases,functions,extra}; do
 	test -e $file && source "$file";
 done;
 unset file;
-
-# fnm (Node package manager)
-eval "$(fnm env --use-on-cd)"
-
-# pyenv (Python package manager)
-# https://github.com/pyenv/pyenv/blob/master/COMMANDS.md#
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
 
 
 # iTerm2 shell integration
