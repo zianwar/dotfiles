@@ -2,6 +2,9 @@ all: sync
 
 sync:
 	[ -f ~/.zshrc ] || ln -fs $(PWD)/.zshrc ~/.zshrc
+	[ -f ~/.aliases ] || ln -fs $(PWD)/.aliases ~/.aliases
+	[ -f ~/.exports ] || ln -fs $(PWD)/.exports ~/.exports
+	[ -f ~/.functions ] || ln -fs $(PWD)/.functions ~/.functions
 	[ -f ~/.gitconfig ] || ln -fs $(PWD)/.gitconfig ~/.gitconfig
 	[ -f ~/.gitignore_global ] || ln -fs $(PWD)/.gitignore_global ~/.gitignore_global
 	[ -f ~/.tmux.conf ] || ln -fs $(PWD)/.tmux/.tmux.conf ~/.tmux.conf
