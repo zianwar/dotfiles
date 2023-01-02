@@ -19,6 +19,14 @@ alias c="cd ~/Code"
 # Directory tree view
 alias t="tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX"
 
+# Homebrew
+alias bi='brew install'
+alias bic='brew install --cask'
+alias br='brew remove'
+alias bf='brew info'
+alias bs='brew search'
+alias bd='brew doctor'
+
 # Show history
 alias history='fc -l 1'
 alias h="history"

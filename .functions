@@ -1,43 +1,12 @@
 #!/usr/bin/env sh
 
-# converts jsonl file to json
-to_json() {
-  cat $1 | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' | sed 's/n/,/' | sed 's/^/[/' | sed 's/$/]/' | jq . >$(basename "$1" .jsonl).json
-}
-
-# converts json file to csv
-to_csv() {
-  json2csv -i $1 -o $(basename "$1" .json).csv --flatten-objects --flatten-arrays
-}
-
-# transfer.sh
-# https://github.com/dutchcoders/transfer.sh/#shell-functions
-transfer() {
-  if [ $# -eq 0 ]; then
-    echo "No arguments specified.\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>" >&2
-    return 1
-  fi
-  if tty -s; then
-    file="$1"
-    file_name=$(basename "$file")
-    if [ ! -e "$file" ]; then
-      echo "$file: No such file or directory" >&2
-      return 1
-    fi
-    if [ -d "$file" ]; then
-      file_name="$file_name.zip" ,
-      (cd "$file" && zip -r -q - .) | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null,
-    else cat "$file" | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null; fi
-  else
-    file_name=$1
-    curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null
-  fi
-}
-
+# Utility for quickly exporting environment variables
+# Usage: cat .env | exportenv
 exportenv() {
   export $(xargs <$1)
 }
 
+# Split csv, each file having [lines] nunber of lines
 function splitcsv {
   if [ "$#" -ne 2 ]; then
     printf "Usage:\n\n splitcsv [filename] [lines] \n"
@@ -141,8 +110,8 @@ function retry {
 
 # fzf helpers - https://github.com/junegunn/fzf#fuzzy-completion-for-bash-and-zsh
 
-# fd - cd to selected directory
-fd() {
+# fcd - cd to selected directory
+fcd() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune \
     -o -type d -print 2>/dev/null | fzf +m) &&
