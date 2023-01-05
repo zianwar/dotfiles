@@ -65,3 +65,6 @@ Includes:
 - Obsidian
 - Alfred
 - iTerm2
+
+#### Use TouchID with iTem
+- https://antkowiak.it/en/enable-touchid-for-sudo-in-iterm-2/
