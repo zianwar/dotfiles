@@ -1,12 +1,12 @@
 #!/usr/bin/env sh
 
-# Utility for quickly exporting environment variables
+# Utility for quickly exporting environment variables from file
 # Usage: cat .env | exportenv
 exportenv() {
   export $(xargs <$1)
 }
 
-# Split csv, each file having [lines] nunber of lines
+# Split csv, each file having [lines] number of lines
 function splitcsv {
   if [ "$#" -ne 2 ]; then
     printf "Usage:\n\n splitcsv [filename] [lines] \n"
@@ -93,6 +93,11 @@ function retry {
   shift
 
   local count=0
+  # NOTE: $@ represents the command and any arguments that were passed to the function after the number of retries.
+  # For example, if you call the retry function like this: `retry 3 some-command arg1 arg2`,
+  # $@ would expand to `some-command arg1 arg2`, which would be executed by the until loop.
+  # The "$@" syntax with the double quotes ensures that the command is executed as a command with arguments,
+  # allowing arguments with spaces to be passed correctly.
   until "$@"; do
     exit=$?
     wait=$((2 ** $count))

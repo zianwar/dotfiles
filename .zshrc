@@ -22,19 +22,18 @@ FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 plugins=(
 	copybuffer # cltr-o to cppy terminal buffer
 	copyfile   # `copyfile <filename>` copies content of file
-	copydir    # copies current path
 	dirhistory # navigate cwd using keyboard
 	# dotenv   					# Automatically load your project ENV variables from .env file when you cd into project root directory
 	fzf
 	git
 	history
 	httpie
-	osx
+	macos
 	ripgrep
 	sudo # Easily prefix your current or previous commands with sudo by pressing esc twice.
 	zsh-autosuggestions
 	zsh-completions
-	zsh_reload # reload shell using `src` command
+	# zsh_reload # reload shell using `src` command
 	zsh-syntax-highlighting
 	z
 )
@@ -43,7 +42,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Load the shell dotfiles, and then some:
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in $DOTFILES/.{exports,aliases,functions,extra}; do
+for file in $DOTFILES/.{exports,aliases,functions,secret}; do
 	test -e $file && source "$file"
 done
 unset file

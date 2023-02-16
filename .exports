@@ -2,6 +2,7 @@
 
 # Compilation flags
 export ARCHFLAGS="-arch $(uname -m)"
+export BREW_PREFIX="$(brew --prefix)"
 
 # SSH key path
 export SSH_KEY_PATH="~/.ssh/dsa_id"
@@ -24,6 +25,13 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # Default terminal editor
 export EDITOR='nano'
 
+# GNU coretutils (those that come with macOS are outdated).
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+# GNU "sed"
+export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
+# GNU findutils
+export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
+
 # Golang
 export GOPATH=~/.go
 export PATH="$PATH:$GOPATH/bin"
@@ -39,8 +47,8 @@ export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
 
 ## Command history configuration
 HISTFILE=$HOME/.zsh_history
-HISTSIZE=1000000
-SAVEHIST=1000000
+HISTSIZE=1000000000
+SAVEHIST=1000000000
 
 setopt append_history
 setopt extended_history
@@ -70,8 +78,6 @@ eval "$(fnm env --use-on-cd)"
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-
-export IMGUR_CLIENT_ID=0c3cba15001fe3a
 
 # pnpm
 export PNPM_HOME="/Users/anwar/Library/pnpm"
