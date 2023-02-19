@@ -9,12 +9,13 @@ if [ -z "$CF_SHORTENER_URI" ]; then "Missing env variable CF_SHORTENER_URI"; fi
 if [ -z "$CF_LINKS_KV_NAMESPACE_ID" ]; then "Missing env variable CF_LINKS_KV_NAMESPACE_ID"; fi
 if [ -z "$CF_SECRETS_KV_NAMESPACE_ID" ]; then "Missing env variable CF_SECRETS_KV_NAMESPACE_ID"; fi
 
-# Verify that wranger installed
+# Verify that argc is installed
 if ! command -v argc &>/dev/null; then
     echo "argc is not installed - see https://github.com/sigoden/argc"
     exit 1
 fi
 
+# Verify that wranger is installed
 if ! command -v wrangler &>/dev/null; then
     echo "wrangler is not installed - see https://developers.cloudflare.com/workers/wrangler/install-and-update/"
     exit 1
