@@ -74,6 +74,8 @@ export NODE_REPL_HISTORY_SIZE='32768'
 # Always enable colored `grep` output.
 export GREP_OPTIONS='--color=auto'
 
+export PATH="$PATH:$DOTFILES/scripts"
+
 # pyenv (Python package manager)
 # https://github.com/pyenv/pyenv/blob/master/COMMANDS.md#
 export PYENV_ROOT="$HOME/.pyenv"
