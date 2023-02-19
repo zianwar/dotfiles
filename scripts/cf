@@ -39,7 +39,7 @@ upload() {
     if [[ $argc_private == 1 ]]; then
         path="private/$key.$ext"
         pw=$(openssl rand -hex 6)
-        expiry=(date -d "+$expiryhours hours" '+%s')
+        expiry=(date -d "+$expiry hours" '+%s')
 
         wrangler kv:key put "$path" "$pw" --namespace-id $CF_SECRETS_KV_NAMESPACE_ID --expiration $expiry 1>/dev/null
     fi
