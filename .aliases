@@ -48,6 +48,9 @@ alias gco='git commit'
 alias gch='git checkout'
 alias gshow='git show'
 
+# Cloudflare wrangler
+alias wg='wrangler'
+
 # Add space to dock
 alias dockspace="defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'; killall Dock"
 
