@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# @describe Utility to work with Cloudflare services - (depends on wrangler CLI)
+# @describe Utility to work with Cloudflare services.
 
 # Validate environment variables
 if [ -z "$CF_ARCHIVER_PUBLIC_URI" ]; then "Missing env variable CF_ARCHIVER_PUBLIC_URI"; fi
