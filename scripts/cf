@@ -25,7 +25,7 @@ fi
 # @arg file!                         File to upload
 # @option --bucket=public            Name of the R2 bucket to use
 # @option --expiry=168               Expiry date in hours for private files (Default = 1 week)
-# @flag --private                    Incidates wether to make the file public or private
+# @flag --private                    Indicates wether to make the file public or private
 upload() {
     if ! test -f "$argc_file"; then
         echo "Invalid file path: '$argc_file'"
