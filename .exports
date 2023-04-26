@@ -76,6 +76,9 @@ export GREP_OPTIONS='--color=auto'
 
 export PATH="$PATH:$DOTFILES/scripts"
 
+# Include ~/.local/bin
+export PATH="$PATH:$HOME/.local/bin"
+
 # pyenv (Python package manager)
 # https://github.com/pyenv/pyenv/blob/master/COMMANDS.md#
 export PYENV_ROOT="$HOME/.pyenv"

@@ -23,36 +23,46 @@ fi
 
 # @cmd Upload a file to R2
 # @arg file!                         File to upload
-# @option --bucket=public            Name of the R2 bucket to use
-# @option --expiry=168               Expiry date in hours for private files (Default = 1 week)
-# @flag --private                    Indicates wether to make the file public or private
+# @option --expiry=7                 Expiry date in days for private files (Default = 1 week)
+# @option --password                 Password to use for access (Default = automatically generated)
+# @flag --keep-name                  Set blob name same as file name (Default = false)
+# @flag --private                    Indicates wether to make the file public or private (Default = false)
 upload() {
     if ! test -f "$argc_file"; then
         echo "Invalid file path: '$argc_file'"
         exit 1
     fi
 
+    public_bucket="public"
+    private_bucket="private"
+
     key=$(openssl rand -hex 4)
-    ext=$(echo "${argc_file##*.}")
-    path="$argc_bucket/$key.$ext"
+    if [[ $argc_keep_name == 1 ]]; then
+        key=$(basename $argc_file)
+    fi
+
+    path="$public_bucket/$key"
 
     if [[ $argc_private == 1 ]]; then
-        path="private/$key.$ext"
-        pw=$(openssl rand -hex 6)
-        expiry=(date -d "+$expiry hours" '+%s')
+        path="$private_bucket/$key"
+        expiry=(date -d "+$expiry days" '+%s')
+        pw=$argc_password
+        if [ -z "$pw" ]; then
+            pw=$(openssl rand -hex 6)
+        fi
 
         wrangler kv:key put "$path" "$pw" --namespace-id $CF_SECRETS_KV_NAMESPACE_ID --expiration $expiry 1>/dev/null
     fi
 
     wrangler r2 object put "$path" --file="$argc_file" 1>/dev/null
 
-    output="$CF_ARCHIVER_PUBLIC_URI/$key.$ext"
+    output="$CF_ARCHIVER_PUBLIC_URI/$key"
     if [[ $argc_private == 1 ]]; then
-        output="$CF_ARCHIVER_PRIVATE_URI/$key.$ext?pw=$pw"
+        output="$CF_ARCHIVER_PRIVATE_URI/$key?pw=$pw"
     fi
 
+    # echo "$output" | pbcopy
     echo "$output"
-    echo "$output" | pbcopy
 }
 
 # @cmd Create short url
@@ -68,8 +78,8 @@ link() {
 
     output="$CF_SHORTENER_URI/$key → $argc_target"
 
-    echo "$output"
     echo "$output" | pbcopy
+    echo "$output"
 }
 
 eval "$(argc "$0" "$@")"

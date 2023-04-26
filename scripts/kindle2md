@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+#
+# Credits: https://github.com/rc2dev/dotfiles/blob/master/.local/bin/kindle2md
+#
+# --------------------------------------------------------------------
+# This script gets a HTML annotations file exported from the Kindle app
+# and convert it to markdown.
+#
+# Instructions:
+# 1. Download this script.
+# 2. Be sure to have python installed.
+# 3. Install python dependencies: pip3 install --user beautifulsoup4
+# 4. Run the script: python3 kindle2md YOUR_FILE.html
+#
+# Copyright (C) 2021-2022 Rafael Cavalcanti <https://rafaelc.org/dev>
+# Licensed under GPLv3
+#
+
+from pathlib import Path
+from os.path import basename, splitext
+from sys import argv, exit
+from bs4 import BeautifulSoup
+
+
+def parse_description(elem):
+    raw = elem.text.strip()
+
+    entry_type = raw.partition(" ")[0].strip()
+    # There can be multiple location informations after the dash ("deferredreward")
+    page = raw.partition("-")[2].strip()
+    color = elem.span.text if elem.span else None
+
+    if color is None:
+        return f"_{entry_type} @ {page}_".lower()
+
+    return f"_{color} {entry_type} @ {page}_".lower()
+
+
+script_name = basename(__file__)
+
+if len(argv) != 2:
+    print(f"Usage: {script_name} html_file")
+    exit(1)
+
+source_name = argv[1]
+dest_name = splitext(source_name)[0] + ".md"
+
+source = Path(source_name)
+dest = Path(dest_name)
+
+if dest.exists():
+    print(f'Destination file "{dest}" already exists.')
+    answer = input("Overwrite? [y/n] ")
+    if answer.lower().strip() != "y":
+        exit(1)
+
+try:
+    # Not providing encoding throws an error on Windows ("deferredreward")
+    file_content = source.read_text(encoding="UTF-8")
+except OSError as e:
+    print(f"Failed to read file: {e}.")
+    exit(1)
+
+soup = BeautifulSoup(file_content, "html.parser")
+
+try:
+    book_title = soup.select_one(".bookTitle").text.strip()
+    book_author = soup.select_one(".authors").text.strip()
+    headings_elements = soup.select(".noteHeading, .sectionHeading")
+    text_elements = soup.select(".noteText")
+except AttributeError as e:
+    print(f"Error parsing file: {e}")
+    exit(1)
+
+try:
+    output = f"# {book_author} - {book_title}\n"
+    for elem in headings_elements:
+        output += "\n"
+        if "sectionHeading" in elem.attrs["class"]:
+            output += f"## {elem.text.strip()}\n"
+        elif elem.text.strip().startswith("Bookmark "):
+            output += f"- {elem.text.strip()}\n"
+        else:
+            text_elem = text_elements.pop(0)
+            output += f"- {text_elem.text.strip()}\n"
+            output += f"\n"
+            output += f"  {parse_description(elem)}\n"
+except IndexError as e:
+    print(f"Error parsing file: {e}")
+    exit(1)
+
+try:
+    dest.write_text(output, encoding="UTF-8")
+except OSError as e:
+    print(f"Failed to write file: {e}")
+    exit(1)
+print(f"Written to: {dest_name}")

@@ -14,7 +14,7 @@ alias mkdir='mkdir -p'
 # Moving around folders
 alias desk='cd ~/Desktop'
 alias dl="cd ~/Downloads"
-alias c="cd ~/Code"
+alias c="cd ~/code"
 
 # Directory tree view
 alias t="tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX"
