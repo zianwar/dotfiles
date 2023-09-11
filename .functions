@@ -127,3 +127,12 @@ fcd() {
 fh() {
   eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
+
+vscode_set_theme(){
+  if [ "$#" -ne 1 ]; then
+    printf "Usage:\n\n vscodetheme [theme]\n"
+    return 1
+  fi
+
+  sed -i -e 's/"workbench.colorTheme": ".*"/"workbench.colorTheme": \"'"$1"'\"/g' "$HOME/Library/Application Support/Code/User/settings.json"
+}

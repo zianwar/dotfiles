@@ -57,7 +57,7 @@ export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 
 # Android SDK platform tools (Flutter development)
-export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
+# export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
 
 # fnm (Node package manager)
 eval "$(fnm env --use-on-cd)"
