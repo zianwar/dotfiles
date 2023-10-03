@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
 # Basic filesystem navigation operations
-alias ls='exa --group-directories-first'
+alias ls='eza --group-directories-first'
 unalias l
-alias l='exa -la --color-scale --group-directories-first --git'
+alias l='eza -la --color-scale --group-directories-first --git'
 
 # Overwites
 alias df='df -h'
