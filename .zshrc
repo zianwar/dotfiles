@@ -20,10 +20,8 @@ FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
 # oh-my-zsh plugins
 plugins=(
-	copybuffer # cltr-o to cppy terminal buffer
-	copyfile   # `copyfile <filename>` copies content of file
+	copybuffer # cltr-o to copy terminal buffer
 	dirhistory # navigate cwd using keyboard
-	# dotenv   					# Automatically load your project ENV variables from .env file when you cd into project root directory
 	fzf
 	git
 	history
@@ -33,7 +31,6 @@ plugins=(
 	sudo # Easily prefix your current or previous commands with sudo by pressing esc twice.
 	zsh-autosuggestions
 	zsh-completions
-	# zsh_reload # reload shell using `src` command
 	zsh-syntax-highlighting
 	z
 )
@@ -41,7 +38,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # Load the shell dotfiles, and then some:
-# * ~/.extra can be used for other settings you don’t want to commit.
+# * ~/.secret can be used for other settings you don’t want to commit.
 for file in $DOTFILES/.{exports,aliases,functions,secret}; do
 	test -e $file && source "$file"
 done

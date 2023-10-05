@@ -70,9 +70,10 @@ export NODE_REPL_HISTORY_SIZE='32768'
 # Always enable colored `grep` output.
 export GREP_OPTIONS='--color=auto'
 
+# Include custom scripts
 export PATH="$PATH:$DOTFILES/scripts"
 
-# Include ~/.local/bin
+# Include custom binaries in ~/.local/bin
 export PATH="$PATH:$HOME/.local/bin"
 
 # pyenv (Python package manager)

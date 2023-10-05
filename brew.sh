@@ -49,56 +49,5 @@ brew install gmp
 brew install tmux
 brew install ssh-copy-id
 
-# tmux utils
-brew install tmux-mem-cpu-load
-brew install reattach-to-user-namespace
-
-# Install font tools.
-brew tap bramstein/webfonttools
-brew install sfnt2woff
-brew install sfnt2woff-zopfli
-brew install woff2
-
-# Install other useful binaries.
-brew install git
-brew install git-lfs
-brew install shellcheck
-brew install python@3
-brew install node
-brew install nvm # Manage multiple Node.js versions
-brew install ruby
-brew install rbenv # Ruby version manager
-brew install ack   # Search tool like grep, but optimized for programmers
-brew install imagemagick E--with-webp
-brew install tree   # Display directories as trees (with optional color/HTML output)
-brew install rsync  # Utility that provides fast incremental file transfer
-brew install insect # used for alfred's `clc` workflow.
-brew install m-cli  # Swiss Army Knife for macOS
-brew install mysql
-brew install protobuf   # Protocol buffers (Google's data interchange format)
-brew install httpie     # User-friendly cURL replacement (command-line HTTP client)
-brew install youtube-dl # Download YouTube videos from the command-line
-brew install exercism
-brew install aspell # Spell checker with better logic than ispell
-brew install nginx
-brew install watch   # Executes a program periodically, showing output fullscreen
-brew install fswatch # Monitor a directory for changes and run a shell command
-brew install redis
-brew install trash             # CLI tool that moves files or folder to the trash
-brew install nmap              # Port scanning utility for large networks
-brew install sqlite            # Command-line interface for SQLite
-brew install htop              # Improved top (interactive process viewer)
-brew install ffmpeg            # Play, record, convert, and stream audio and video
-brew install wifi-password     # Show the current WiFi network password
-brew install exiftool          # Perl lib for reading and writing EXIF metadata
-brew install mkcert            # Simple tool to make locally trusted development certificates
-brew install mitmproxy         # Intercept, modify, replay, save HTTP/S traffic
-brew install hugo              # Configurable static site generator
-brew install go                # Go programming language
-brew install dep               # Go dependency management tool
-brew install yarn              # JavaScript package manager
-brew install mongodb-community # High-performance, schema-free, document-oriented database
-brew install jq                # Lightweight and flexible command-line JSON processor
-
 # Remove outdated versions from the cellar.
 brew cleanup
