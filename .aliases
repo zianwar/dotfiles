@@ -19,6 +19,8 @@ alias c="cd ~/code"
 # Directory tree view
 alias t="tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX"
 
+# Google drive
+alias drive='cd ~/Library/CloudStorage/GoogleDrive-anwaar.ziani@gmail.com/My\ Drive/'
 # Show history
 alias history='fc -l 1'
 alias h="history"
@@ -46,6 +48,19 @@ alias wg='wrangler'
 # Add space to dock
 alias dockspace="defaults write com.apple.dock persistent-apps -array-add '{tile-data={}; tile-type="spacer-tile";}'; killall Dock"
 
+# Makes hiding / showing dock fast
+alias dockfast="defaults write com.apple.dock autohide-delay -float 0; defaults write com.apple.dock autohide-time-modifier -int 0;killall Dock"
+alias dockfastundo="defaults write com.apple.dock autohide-delay -float 0.5; defaults write com.apple.dock autohide-time-modifier -int 0.5 ;killall Dock"
+
+# Shows hidden apps in dock as transparent
+alias dockshowhidden="defaults write com.apple.Dock showhidden -bool TRUE && killall Dock"
+
+# Disable "Disk Ejected Improperly" warnings (requires restart)
+alias diskwarn="sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.DiskArbitration.diskarbitrationd.plist DADisableEjectNotification -bool YES && sudo pkill diskarbitrationd"
+
+# Change screenshot format from png to jpg for smaller size
+alias shottype="defaults write com.apple.screencapture type jpg"
+
 # public and local IP addresses
 alias publicip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
@@ -58,8 +73,8 @@ alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && kill
 alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
 
 # Hide/show all desktop icons (useful when presenting)
-alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
-alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+alias hidedesktopicons="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+alias showdesktopicons="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
@@ -72,3 +87,6 @@ alias maxvolume="osascript -e 'set volume 7'"
 
 # tmux default session
 alias tx="tmux a -t main || tmux new -s main"
+
+# tailscale
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"

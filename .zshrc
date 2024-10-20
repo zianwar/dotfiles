@@ -48,7 +48,14 @@ unset file
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
 
 # Rust
 source "$HOME/.cargo/env"
+
+# Rye Python toolkit
+source "$HOME/.rye/env"
+
+# bun completions
+[ -s "/Users/anwar/.bun/_bun" ] && source "/Users/anwar/.bun/_bun"

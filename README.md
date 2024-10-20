@@ -47,18 +47,9 @@ Includes:
    ```
 6. Python
 
-   ```bash
-   brew install pyenv
-
-   pyenv install 3.11.1
-   pyenv rehash
-   pyenv global 3.11.1
-   ```
+   Using [Rye](https://github.com/astral-sh/rye)
 
 ### Apps I use not listed in [Brewfile](./Brewfile)
-
-- [rcmd](https://lowtechguys.com/rcmd/)
-- [Alfred](https://www.alfredapp.com/)
 
 ### Manual Backups (TODO)
 
@@ -67,4 +58,5 @@ Includes:
 - iTerm2
 
 #### Use TouchID with iTem
+
 - https://antkowiak.it/en/enable-touchid-for-sudo-in-iterm-2/

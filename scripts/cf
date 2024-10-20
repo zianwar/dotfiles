@@ -25,6 +25,7 @@ fi
 # @arg file!                         File to upload
 # @option --expiry=7                 Expiry date in days for private files (Default = 1 week)
 # @option --password                 Password to use for access (Default = automatically generated)
+# @option --name                     The blob name (Defaults to random name)
 # @flag --keep-name                  Set blob name same as file name (Default = false)
 # @flag --private                    Indicates wether to make the file public or private (Default = false)
 upload() {
@@ -39,6 +40,8 @@ upload() {
     key=$(openssl rand -hex 4)
     if [[ $argc_keep_name == 1 ]]; then
         key=$(basename $argc_file)
+    elif [[ $argc_name == 1 ]]; then
+        key="$argc_name"
     fi
 
     path="$public_bucket/$key"

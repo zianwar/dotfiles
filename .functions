@@ -136,3 +136,19 @@ vscode_set_theme(){
 
   sed -i -e 's/"workbench.colorTheme": ".*"/"workbench.colorTheme": \"'"$1"'\"/g' "$HOME/Library/Application Support/Code/User/settings.json"
 }
+
+# copies media from current folder to local Raspberry Pi
+sync_media() {
+  file=$(find . -maxdepth 1 -not -path '*/.*' -print0| xargs -0 gum choose)
+  file_kind=$(gum choose "TV Show" "Movie" --selected "Movie")
+  # If a file is chosen, display the selection
+  if [ -n "$file" ]; then
+      echo "Syncing $(gum style --foreground 212 "$file")"
+      rsync -r --progress "$file" "anwar@rpi4.local:/mnt/storage/media/${file_kind}s"
+      if [ $? -eq 0 ]; then
+        trash $file && echo "Moved file to trash $(gum style --foreground 212 "$file")"
+      fi
+  else
+      echo "No file selected"
+  fi
+}
