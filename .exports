@@ -46,9 +46,14 @@ export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
 # GNU findutils
 export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
 
-# Go
-export GOPATH=~/.go
-export PATH="$PATH:$GOPATH/bin"
+# # Go
+# export GOPATH=~/.go
+# export PATH="$PATH:$GOPATH/bin"
+# Golang environment variables
+
+export GOROOT=$(brew --prefix go)/libexec
+export GOPATH=$HOME/.go
+export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
 
 # Rust
 export PATH="$PATH:$HOME/.cargo/bin"
@@ -56,11 +61,20 @@ export PATH="$PATH:$HOME/.cargo/bin"
 # Yarn global modules bin
 export PATH="$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
 
+# pnpm
+export PNPM_HOME="/Users/anwar/Library/pnpm"
+case ":$PATH:" in
+*":$PNPM_HOME:"*) ;;
+*) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 # Android SDK platform tools (Flutter development)
 # export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
 
-# fnm (Node package manager)
-eval "$(fnm env --use-on-cd)"
+# nvm: Node package manager
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # Enable persistent REPL history for `node`.
 export NODE_REPL_HISTORY_FILE=~/.node_history

@@ -139,6 +139,21 @@ vscode_set_theme(){
 
 # copies media from current folder to local Raspberry Pi
 sync_media() {
+    # Parse the --no-delete flag
+  no_delete=false
+  while [[ "$1" != "" ]]; do
+    case $1 in
+      --no-delete )
+        no_delete=true
+        ;;
+      * )
+        echo "Invalid option: $1"
+        return 1
+        ;;
+    esac
+    shift
+  done
+  
   file=$(find . -maxdepth 1 -not -path '*/.*' -print0| xargs -0 gum choose)
   file_kind=$(gum choose "TV Show" "Movie" --selected "Movie")
   # If a file is chosen, display the selection
@@ -146,9 +161,30 @@ sync_media() {
       echo "Syncing $(gum style --foreground 212 "$file")"
       rsync -r --progress "$file" "anwar@rpi4.local:/mnt/storage/media/${file_kind}s"
       if [ $? -eq 0 ]; then
-        trash $file && echo "Moved file to trash $(gum style --foreground 212 "$file")"
+        if [ "$no_delete" = false ]; then
+          trash $file && echo "Moved file to trash $(gum style --foreground 212 "$file")"
+        else
+          echo "Skipping deletion of $(gum style --foreground 212 "$file") due to --no-delete flag"
+        fi
       fi
   else
       echo "No file selected"
   fi
+}
+
+# Loop through all files in the ~/.config/fabric/patterns directory
+for pattern_file in $HOME/.config/fabric/patterns/*; do
+    # Get the base name of the file (i.e., remove the directory path)
+    pattern_name=$(basename "$pattern_file")
+
+    # Create an alias in the form: alias pattern_name="fabric --pattern pattern_name"
+    alias_command="alias $pattern_name='fabric --pattern $pattern_name'"
+
+    # Evaluate the alias command to add it to the current shell
+    eval "$alias_command"
+done
+
+yt() {
+    local video_link="$1"
+    fabric -y "$video_link" --transcript
 }

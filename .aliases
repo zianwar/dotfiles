@@ -90,3 +90,5 @@ alias tx="tmux a -t main || tmux new -s main"
 
 # tailscale
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
+alias f="fabric"
