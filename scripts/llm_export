@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# @describe llm tools
+
+with_tts=false
+with_open=false
+cid=""
+chats_dir="$HOME/.obsidian/Mind/Categories/llm"
+attachments_dir="$HOME/.obsidian/Mind/Attachments/llm"
+obsidian_vault="Mind"
+
+# Parse command line arguments
+while [ $# -gt 0 ]; do
+    case "$1" in
+    --tts)
+        with_tts=true
+        shift
+        ;;
+    --open)
+        with_open=true
+        shift
+        ;;
+    --cid)
+        if [ -n "$2" ]; then
+            cid="$2"
+            shift 2
+        else
+            echo "Error: --cid requires a value" >&2
+            return 1
+        fi
+        ;;
+    *)
+        echo "Unknown option: $1" >&2
+        return 1
+        ;;
+    esac
+done
+
+# Create output directory if it doesn't exist
+mkdir -p "$chats_dir"
+mkdir -p "$attachments_dir"
+
+# Get full conversation
+if [ -n "$cid" ]; then
+    full_output=$(llm logs list --cid "$cid" -r)
+else
+    full_output=$(llm logs list -n 1 -r)                                # only most recent response
+    cid=$(llm logs list -n 1 | grep "conversation:" | awk '{print $4}') # extract conversation id from full chat
+fi
+# Validate output
+if [ -z "$full_output" ]; then
+    echo "Error: Could not extract conversation" >&2
+    return 1
+fi
+
+title=$(echo "$full_output" | llm -m 3.5 --no-log "Generate a 2-6 (unquoted) word raw title from the following AI Chat")
+echo "Processing conversation ID: $cid"
+output_file="$chats_dir/$title.md" # Generate output text path
+
+# Handle text-to-speech
+if $with_tts; then
+    output_audio="$attachments_dir/$title.mp3"
+    if ! echo "$full_output" | llm azure-tts --voice nova >"$output_audio"; then
+        echo "Error: Failed to process TTS" >&2
+        return 1
+    fi
+
+    # Insert audio embed after first line
+    full_output=$(echo "$full_output" | sed "1 a\
+![[$title.mp3]]")
+fi
+
+full_output=$(
+    cat <<EOF
+---
+conversation_id: $cid
+---
+$full_output
+EOF
+)
+
+# Export logs to markdown
+if ! echo "$full_output" >"$output_file"; then
+    echo "Error: Failed to export conversation $cid" >&2
+    return 1
+fi
+
+# Open in Obsidian if requested
+if $with_open; then
+    if ! open "obsidian://open?vault=$obsidian_vault&file=$title.md"; then
+        echo "Error: Failed to open file in Obsidian" >&2
+        return 1
+    fi
+fi
+
+echo "Successfully exported conversation $cid to: $output_file"

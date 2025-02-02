@@ -54,8 +54,5 @@ source <(fzf --zsh)
 # Rust
 source "$HOME/.cargo/env"
 
-# Rye Python toolkit
-source "$HOME/.rye/env"
-
 # bun completions
 [ -s "/Users/anwar/.bun/_bun" ] && source "/Users/anwar/.bun/_bun"

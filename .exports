@@ -100,5 +100,10 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # SelfControl.app CLI
 export PATH="$PATH:/Applications/SelfControl.app/Contents/MacOS"
 
+# UV python toolkit
+eval "$(uv generate-shell-completion zsh)"
+
+export EDITOR="code -w"
+
 # Automatically remove duplicates from these arrays
 typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH

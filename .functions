@@ -172,19 +172,23 @@ sync_media() {
   fi
 }
 
-# Loop through all files in the ~/.config/fabric/patterns directory
-for pattern_file in $HOME/.config/fabric/patterns/*; do
-    # Get the base name of the file (i.e., remove the directory path)
-    pattern_name=$(basename "$pattern_file")
+# Create an alias in the form: alias template_name="llm --template template_name"
+llm_templates=$(llm templates | awk '{print $1}')
+while IFS= read -r template_name; do
+    if [[ -n "$template_name" ]]; then
+        alias_command="alias $template_name='llm --template $template_name'"
+        eval "$alias_command"
+    fi
+done <<< "$llm_templates"
 
-    # Create an alias in the form: alias pattern_name="fabric --pattern pattern_name"
-    alias_command="alias $pattern_name='fabric --pattern $pattern_name'"
-
-    # Evaluate the alias command to add it to the current shell
-    eval "$alias_command"
-done
 
 yt() {
-    local video_link="$1"
-    fabric -y "$video_link" --transcript
+    video_link="$1"
+    output="${2:-/tmp/yt.txt}"
+    tmpfile="/tmp/transcript.en.srt"
+    yt-dlp --quiet --no-warnings --skip-download --write-subs --write-auto-subs --sub-lang en --sub-format ttml --convert-subs srt --output "/tmp/transcript.%(ext)s" $video_link
+    cat $tmpfile | sed '/^$/d' | grep -v '^[0-9]*$' | grep -v '\-->' | sed 's/<[^>]*>//g' | tr '\n' ' ' | sed 's/ *$/\n/' >"$output"
+    trash $tmpfile
+    cat $output
 }
+
