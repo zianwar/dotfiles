@@ -55,7 +55,7 @@ fi
 
 title=$(echo "$full_output" | llm -m 3.5 --no-log "Generate a 2-6 (unquoted) word raw title from the following AI Chat")
 echo "Processing conversation ID: $cid"
-output_file="$chats_dir/$title.md" # Generate output text path
+output_file="$chats_dir/Chat - $title.md" # Generate output text path
 
 # Handle text-to-speech
 if $with_tts; then
@@ -87,7 +87,7 @@ fi
 
 # Open in Obsidian if requested
 if $with_open; then
-    if ! open "obsidian://open?vault=$obsidian_vault&file=$title.md"; then
+    if ! open "obsidian://open?vault=$obsidian_vault&file=$(basename "$output_file")"; then
         echo "Error: Failed to open file in Obsidian" >&2
         return 1
     fi
