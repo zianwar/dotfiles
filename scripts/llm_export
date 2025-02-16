@@ -53,7 +53,7 @@ if [ -z "$full_output" ]; then
     return 1
 fi
 
-title=$(echo "$full_output" | llm -m 3.5 --no-log "Generate a 2-6 (unquoted) word raw title from the following AI Chat")
+title=$(echo "$full_output" | llm -m 3.5 --no-log "Generate a 2-6 (unquoted) word raw title from the following AI Chat. Use only english alphabet (or numbers) characters.")
 echo "Processing conversation ID: $cid"
 output_file="$chats_dir/Chat - $title.md" # Generate output text path
 
