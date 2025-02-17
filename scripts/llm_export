@@ -5,6 +5,7 @@
 with_tts=false
 with_open=false
 cid=""
+youtube_url=""
 chats_dir="$HOME/.obsidian/Mind/Categories/llm"
 attachments_dir="$HOME/.obsidian/Mind/Attachments/llm"
 obsidian_vault="Mind"
@@ -20,12 +21,21 @@ while [ $# -gt 0 ]; do
         with_open=true
         shift
         ;;
-    --cid)
+    -cid | --conversation-id)
         if [ -n "$2" ]; then
             cid="$2"
             shift 2
         else
             echo "Error: --cid requires a value" >&2
+            return 1
+        fi
+        ;;
+    -y | --youtube)
+        if [ -n "$2" ]; then
+            youtube_url="$2"
+            shift 2
+        else
+            echo "Error: -yt/--youtube requires a value" >&2
             return 1
         fi
         ;;
@@ -70,14 +80,27 @@ if $with_tts; then
 ![[$title.mp3]]")
 fi
 
-full_output=$(
-    cat <<EOF
+# Prepare front matter using a here document for proper newlines
+if [ -n "$youtube_url" ]; then
+    full_output=$(
+        cat <<EOF
+---
+conversation_id: $cid
+youtube: $youtube_url
+---
+$full_output
+EOF
+    )
+else
+    full_output=$(
+        cat <<EOF
 ---
 conversation_id: $cid
 ---
 $full_output
 EOF
-)
+    )
+fi
 
 # Export logs to markdown
 if ! echo "$full_output" >"$output_file"; then
