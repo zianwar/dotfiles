@@ -10,6 +10,7 @@ export ZSH_CUSTOM=$ZSH/custom
 ZSH_THEME="awesomepanda" # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 CASE_SENSITIVE="false"
 DISABLE_AUTO_UPDATE="false"
+DISABLE_MAGIC_FUNCTIONS="true" # this prevents auto-escaping of urls and other "magic" stuff in $ZSH/lib/misc.zsh
 
 # Initialize homebrew
 eval $(/opt/homebrew/bin/brew shellenv)
