@@ -73,7 +73,8 @@ def upload(file: Path, key: str, private: bool):
         $ r2 upload video.mp4 --key media/2024/video.mp4 --private
     """
     if not key:
-        key = normalize_filename(Path(file).name)
+        key = Path(file).name
+    key = normalize_filename(key)
 
     r2 = get_r2_client()
     bucket, uri = get_r2_bucket(private)
