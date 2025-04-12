@@ -2,7 +2,7 @@
 
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["click", "boto3"]
+# dependencies = ["click", "boto3", "humanize", "rich"]
 # ///
 
 import json
@@ -13,6 +13,10 @@ import unicodedata
 import click
 import boto3
 import re
+from datetime import datetime
+import humanize
+from rich.console import Console
+from rich.table import Table
 
 
 cloudflare_account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
@@ -109,34 +113,23 @@ def info(key: str, private: bool):
     bucket, uri = get_r2_bucket(private)
 
     try:
+        objects = []
         if not key:
             # Read from stdin if no key provided
             for line in sys.stdin:
                 key = line.strip().removeprefix(f"{r2_bucket_public_uri}/").removeprefix(f"{r2_bucket_private_uri}/")
                 if key:
-                    info = get_object_info(r2, bucket, uri, key)
-                    click.echo(json.dumps(info, sort_keys=True, indent=2, separators=(",", ": ")))
+                    objects.append(get_object_info(r2, bucket, uri, key))
         else:
-            info = get_object_info(r2, bucket, uri, key)
-            click.echo(json.dumps(info, sort_keys=True, indent=2, separators=(",", ": ")))
+            objects.append(get_object_info(r2, bucket, uri, key))
+
+        if objects:
+            click.echo(format_objects_table(objects))
     except r2.exceptions.ClientError as e:
         if e.response["Error"]["Code"] == "404":
             click.echo(f"Not found: {uri}/{key}", err=True)
             sys.exit(1)
         raise
-
-
-def get_object_info(r2, bucket: str, bucket_uri: str, key: str) -> dict:
-    obj = r2.head_object(Bucket=bucket, Key=key)
-    info = {
-        "object": f"{bucket_uri}/{key}",
-        "content-length": f"{obj['ContentLength']} bytes",
-        "lastModified": f"{obj['LastModified']}",
-        "etag": f"{obj['ETag']}",
-    }
-    if obj.get("ContentType"):
-        info["content-type"] = obj["ContentType"]
-    return info
 
 
 @cli.command()
@@ -169,6 +162,36 @@ def list(prefix: str, pattern: str, private: str):
     except re.error as e:
         click.echo(f"Invalid regex pattern: {e}", err=True)
         sys.exit(1)
+
+
+def format_objects_table(objects: list) -> str:
+    """Format objects into a table string"""
+    if not objects:
+        return ""
+
+    table = Table(show_header=True, header_style="bold")
+    table.add_column("Name")
+    table.add_column("Size")
+    table.add_column("Modified")
+    table.add_column("Type")
+
+    for obj in objects:
+        table.add_row(obj["name"], obj["size"], obj["age"], obj.get("content-type", "N/A"))
+
+    console = Console(file=sys.stderr)
+    console.print(table)
+    return ""  # Return empty string since we've already printed the table
+
+
+def get_object_info(r2, bucket: str, bucket_uri: str, key: str) -> dict:
+    obj = r2.head_object(Bucket=bucket, Key=key)
+    obj["_key"] = key  # Add key to object for formatting
+    return {
+        "name": obj["Key"].split("/")[-1] if "Key" in obj else obj["_key"].split("/")[-1],
+        "size": humanize.naturalsize(obj["ContentLength"]),
+        "age": humanize.naturaltime(datetime.now() - obj["LastModified"].replace(tzinfo=None)),
+        "content-type": obj.get("ContentType"),
+    }
 
 
 def normalize_filename(filename: str):
