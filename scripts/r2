@@ -5,22 +5,14 @@
 # dependencies = ["click", "boto3"]
 # ///
 
+import json
 import os
 from pathlib import Path
 import sys
+import unicodedata
 import click
 import boto3
 import re
-
-
-def get_r2_client():
-    return boto3.client(
-        service_name="s3",
-        endpoint_url=f"https://{cloudflare_account_id}.r2.cloudflarestorage.com",
-        aws_access_key_id=r2_access_key_id,
-        aws_secret_access_key=r2_access_key_secret,
-        region_name=r2_region,
-    )
 
 
 cloudflare_account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
@@ -43,6 +35,22 @@ r2_bucket_public_uri = "https://pub.anw.sh"
 r2_bucket_private_uri = "https://pri.anw.sh"
 
 
+def get_r2_bucket(private: bool) -> tuple[str, str]:
+    name = r2_bucket_private if private else r2_bucket_public
+    uri = r2_bucket_private_uri if private else r2_bucket_public_uri
+    return name, uri
+
+
+def get_r2_client():
+    return boto3.client(
+        service_name="s3",
+        endpoint_url=f"https://{cloudflare_account_id}.r2.cloudflarestorage.com",
+        aws_access_key_id=r2_access_key_id,
+        aws_secret_access_key=r2_access_key_secret,
+        region_name=r2_region,
+    )
+
+
 @click.group()
 def cli():
     pass
@@ -52,62 +60,93 @@ def cli():
 @click.argument("file", type=click.Path(exists=True))
 @click.option("--key", help="The object key in R2 (defaults to file name)")
 @click.option("--private", help="Whether to use private or public bucket", default=False)
-def upload(file, key, private):
+def upload(file: Path, key: str, private: bool):
     """Upload a file to R2."""
     if not key:
-        key = Path(file).name
+        key = normalize_filename(Path(file).name)
 
     r2 = get_r2_client()
-    bucket = r2_bucket_private if private else r2_bucket_public
+    bucket, uri = get_r2_bucket(private)
 
     with open(file, "rb") as f:
         r2.upload_fileobj(f, bucket, key)
-        click.echo(f"{r2_bucket_public_uri}/{bucket}/{key}")
+        click.echo(f"{uri}/{key}")
 
 
 @cli.command()
-@click.argument("key")
+@click.argument("key", required=False)
 @click.option("--private", help="Whether to use private or public bucket", default=False)
-def delete(key, private):
-    """Delete an object from R2."""
+def delete(key: str, private: bool):
+    """Delete an object from R2. If no key is provided, reads keys from stdin."""
     r2 = get_r2_client()
-    bucket = r2_bucket_private if private else r2_bucket_public
+    bucket, uri = get_r2_bucket(private)
 
-    r2.delete_object(Bucket=bucket, Key=key)
-    click.echo(f"Deleted: {r2_bucket_public_uri}/{bucket}/{key}")
+    if not key:
+        # Read from stdin if no key provided
+        for line in sys.stdin:
+            key = line.strip().removeprefix(f"{r2_bucket_public_uri}/").removeprefix(f"{r2_bucket_private_uri}/")
+            if key:
+                try:
+                    r2.delete_object(Bucket=bucket, Key=key)
+                    click.echo(f"Deleted: {uri}/{key}")
+                except r2.exceptions.ClientError as e:
+                    click.echo(f"Error deleting {uri}/{key}: {e}", err=True)
+    else:
+        try:
+            r2.delete_object(Bucket=bucket, Key=key)
+            click.echo(f"Deleted: {uri}/{key}")
+        except r2.exceptions.ClientError as e:
+            click.echo(f"Error deleting {uri}/{key}: {e}", err=True)
+            sys.exit(1)
 
 
 @cli.command()
-@click.argument("key")
+@click.argument("key", required=False)
 @click.option("--private", help="Whether to use private or public bucket", default=False)
-def info(key, private):
+def info(key: str, private: bool):
     """Get object information from R2."""
     r2 = get_r2_client()
-    bucket = r2_bucket_private if private else r2_bucket_public
+    bucket, uri = get_r2_bucket(private)
 
     try:
-        obj = r2.head_object(Bucket=bucket, Key=key)
-        click.echo(f"Object: {bucket}/{key}")
-        click.echo(f"Size: {obj['ContentLength']} bytes")
-        click.echo(f"Last modified: {obj['LastModified']}")
-        click.echo(f"ETag: {obj['ETag']}")
-        if obj.get("ContentType"):
-            click.echo(f"Content type: {obj['ContentType']}")
+        if not key:
+            # Read from stdin if no key provided
+            for line in sys.stdin:
+                key = line.strip().removeprefix(f"{r2_bucket_public_uri}/").removeprefix(f"{r2_bucket_private_uri}/")
+                if key:
+                    info = get_object_info(r2, bucket, uri, key)
+                    click.echo(json.dumps(info, sort_keys=True, indent=2, separators=(",", ": ")))
+        else:
+            info = get_object_info(r2, bucket, uri, key)
+            click.echo(json.dumps(info, sort_keys=True, indent=2, separators=(",", ": ")))
     except r2.exceptions.ClientError as e:
         if e.response["Error"]["Code"] == "404":
-            click.echo(f"Not found: {r2_bucket_public_uri}/{bucket}/{key}", err=True)
+            click.echo(f"Not found: {uri}/{key}", err=True)
             sys.exit(1)
         raise
+
+
+def get_object_info(r2, bucket: str, bucket_uri: str, key: str) -> dict:
+    obj = r2.head_object(Bucket=bucket, Key=key)
+    info = {
+        "object": f"{bucket_uri}/{key}",
+        "content-length": f"{obj['ContentLength']} bytes",
+        "lastModified": f"{obj['LastModified']}",
+        "etag": f"{obj['ETag']}",
+    }
+    if obj.get("ContentType"):
+        info["content-type"] = obj["ContentType"]
+    return info
 
 
 @cli.command()
 @click.option("--prefix", help="Filter objects by prefix")
 @click.option("--pattern", help="Filter objects by regex pattern")
 @click.option("--private", help="Whether to use private or public bucket", default=False)
-def list(prefix, pattern, private):
+def list(prefix: str, pattern: str, private: str):
     """List objects in the R2 bucket."""
     r2 = get_r2_client()
-    bucket = r2_bucket_private if private else r2_bucket_public
+    bucket, uri = get_r2_bucket(private)
 
     try:
         kwargs = {"Bucket": bucket}
@@ -123,17 +162,24 @@ def list(prefix, pattern, private):
 
             if objects:
                 for obj in objects:
-                    click.echo(f"{bucket}/{obj['Key']}")
-            else:
-                click.echo(f"No matching objects found in bucket {bucket}")
-        else:
-            click.echo(f"No objects found in bucket {bucket}")
+                    click.echo(f"{uri}/{obj['Key']}")
     except r2.exceptions.ClientError as e:
         click.echo(f"Error listing objects: {e}", err=True)
         sys.exit(1)
     except re.error as e:
         click.echo(f"Invalid regex pattern: {e}", err=True)
         sys.exit(1)
+
+
+def normalize_filename(filename: str):
+    name, ext = os.path.splitext(filename)
+    # Convert to lowercase and normalize unicode characters
+    name = name.lower()
+    name = unicodedata.normalize("NFKD", name).encode("ASCII", "ignore").decode("ASCII")
+    # Replace spaces and unwanted characters with hyphens
+    name = re.sub(r"[^\w\s-]", "", name)
+    name = re.sub(r"[-\s]+", "-", name).strip("-")
+    return f"{name}{ext.lower()}"
 
 
 if __name__ == "__main__":
