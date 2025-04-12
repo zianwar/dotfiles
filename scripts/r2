@@ -4,8 +4,6 @@
 # requires-python = ">=3.12"
 # dependencies = ["click", "boto3", "humanize", "rich"]
 # ///
-
-import json
 import os
 from pathlib import Path
 import sys
@@ -55,7 +53,7 @@ def get_r2_client():
     )
 
 
-@click.group()
+@click.group(context_settings={"help_option_names": ["-h", "--help"]})
 def cli():
     pass
 
@@ -65,7 +63,15 @@ def cli():
 @click.option("--key", help="The object key in R2 (defaults to file name)")
 @click.option("--private", help="Whether to use private or public bucket", default=False)
 def upload(file: Path, key: str, private: bool):
-    """Upload a file to R2."""
+    """Upload a file to R2.
+
+    \b
+    Examples:
+        $ r2 upload image.png
+        $ r2 upload document.pdf --key docs/report.pdf
+        $ r2 upload avatar.jpg --private
+        $ r2 upload video.mp4 --key media/2024/video.mp4 --private
+    """
     if not key:
         key = normalize_filename(Path(file).name)
 
@@ -81,7 +87,15 @@ def upload(file: Path, key: str, private: bool):
 @click.argument("key", required=False)
 @click.option("--private", help="Whether to use private or public bucket", default=False)
 def delete(key: str, private: bool):
-    """Delete an object from R2. If no key is provided, reads keys from stdin."""
+    """Delete an object from R2. If no key is provided, reads keys from stdin.
+
+    \b
+    Examples:
+        $ r2 delete image.png
+        $ r2 delete docs/report.pdf --private
+        $ r2 list --pattern "\\.png$" | r2 delete
+        $ r2 list --private | r2 delete --private
+    """
     r2 = get_r2_client()
     bucket, uri = get_r2_bucket(private)
 
@@ -108,7 +122,15 @@ def delete(key: str, private: bool):
 @click.argument("key", required=False)
 @click.option("--private", help="Whether to use private or public bucket", default=False)
 def info(key: str, private: bool):
-    """Get object information from R2."""
+    """Get object information from R2.
+
+    \b
+    Examples:
+        $ r2 info image.png
+        $ r2 info docs/report.pdf --private
+        $ r2 list | r2 info
+        $ r2 list --private | r2 info --private
+    """
     r2 = get_r2_client()
     bucket, uri = get_r2_bucket(private)
 
@@ -137,7 +159,16 @@ def info(key: str, private: bool):
 @click.option("--pattern", help="Filter objects by regex pattern")
 @click.option("--private", help="Whether to use private or public bucket", default=False)
 def list(prefix: str, pattern: str, private: str):
-    """List objects in the R2 bucket."""
+    """List objects in the R2 bucket.
+
+    \b
+    Examples:
+        $ r2 list
+        $ r2 list --prefix images/
+        $ r2 list --pattern "\\.png$"
+        $ r2 list --prefix photos/ --pattern "\\.jpg$"
+        $ r2 list --private
+    """
     r2 = get_r2_client()
     bucket, uri = get_r2_bucket(private)
 
