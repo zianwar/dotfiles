@@ -1,0 +1,97 @@
+#!/usr/bin/env -S uv --quiet run --script
+
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["click", "boto3"]
+# ///
+
+import os
+from pathlib import Path
+import sys
+import click
+import boto3
+
+
+def get_r2_client():
+    return boto3.client(
+        service_name="s3",
+        endpoint_url=f"https://{cloudflare_account_id}.r2.cloudflarestorage.com",
+        aws_access_key_id=r2_access_key_id,
+        aws_secret_access_key=r2_access_key_secret,
+        region_name=r2_region,
+    )
+
+
+cloudflare_account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
+if not cloudflare_account_id:
+    click.echo("Missing environment variable CLOUDFLARE_ACCOUNT_ID", err=True)
+
+r2_access_key_id = os.getenv("R2_ACCESS_KEY_ID")
+if not r2_access_key_id:
+    click.echo("Missing environment variable R2_ACCESS_KEY_ID", err=True)
+
+r2_access_key_secret = os.getenv("R2_ACCESS_KEY_SECRET")
+if not r2_access_key_secret:
+    click.echo("Missing environment variable R2_ACCESS_KEY_SECRET", err=True)
+    sys.exit()
+
+r2_bucket = "public"
+r2_region = "WNAM"
+
+
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
+@click.argument("file", type=click.Path(exists=True))
+@click.option("--key", help="The object key in R2 (defaults to file name)")
+def upload(file, key):
+    """Upload a file to R2."""
+    if not key:
+        key = Path(file).name
+
+    r2 = get_r2_client()
+    bucket = r2_bucket
+
+    with open(file, "rb") as f:
+        r2.upload_fileobj(f, bucket, key)
+        click.echo(f"Uploaded {file} to {bucket}/{key}")
+
+
+@cli.command()
+@click.argument("key")
+def delete(key):
+    """Delete an object from R2."""
+    r2 = get_r2_client()
+    bucket = r2_bucket
+
+    r2.delete_object(Bucket=bucket, Key=key)
+    click.echo(f"Deleted {bucket}/{key}")
+
+
+@cli.command()
+@click.argument("key")
+def info(key):
+    """Get object information from R2."""
+    r2 = get_r2_client()
+    bucket = r2_bucket
+
+    try:
+        obj = r2.head_object(Bucket=bucket, Key=key)
+        click.echo(f"Object: {bucket}/{key}")
+        click.echo(f"Size: {obj['ContentLength']} bytes")
+        click.echo(f"Last modified: {obj['LastModified']}")
+        click.echo(f"ETag: {obj['ETag']}")
+        if obj.get("ContentType"):
+            click.echo(f"Content type: {obj['ContentType']}")
+    except r2.exceptions.ClientError as e:
+        if e.response["Error"]["Code"] == "404":
+            click.echo(f"Object {bucket}/{key} not found", err=True)
+            sys.exit(1)
+        raise
+
+
+if __name__ == "__main__":
+    cli()
