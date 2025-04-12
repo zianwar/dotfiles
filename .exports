@@ -102,6 +102,8 @@ export PATH="$PATH:/Applications/SelfControl.app/Contents/MacOS"
 
 # UV python toolkit
 eval "$(uv generate-shell-completion zsh)"
+# UV tools
+export PATH="$PATH:$HOME/.local/share/uv/tools"
 
 export EDITOR="code -w"
 

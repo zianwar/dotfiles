@@ -155,7 +155,7 @@ sync_media() {
   done
   
   file=$(find . -maxdepth 1 -not -path '*/.*' -print0| xargs -0 gum choose)
-  file_kind=$(gum choose "TV Show" "Movie" --selected "Movie")
+  file_kind=$(gum choose "Show" "Movie" --selected "Movie")
   # If a file is chosen, display the selection
   if [ -n "$file" ]; then
       echo "Syncing $(gum style --foreground 212 "$file")"
