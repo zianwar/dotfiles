@@ -20,15 +20,17 @@ from rich.table import Table
 cloudflare_account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
 if not cloudflare_account_id:
     click.echo("Missing environment variable CLOUDFLARE_ACCOUNT_ID", err=True)
+    sys.exit(1)
 
 r2_access_key_id = os.getenv("R2_ACCESS_KEY_ID")
 if not r2_access_key_id:
     click.echo("Missing environment variable R2_ACCESS_KEY_ID", err=True)
+    sys.exit(1)
 
 r2_access_key_secret = os.getenv("R2_ACCESS_KEY_SECRET")
 if not r2_access_key_secret:
     click.echo("Missing environment variable R2_ACCESS_KEY_SECRET", err=True)
-    sys.exit()
+    sys.exit(1)
 
 r2_region = "WNAM"
 r2_bucket_public = "public"
