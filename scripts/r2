@@ -161,7 +161,9 @@ def info(key: str, private: bool):
 @click.option("--prefix", help="Filter objects by prefix")
 @click.option("--pattern", help="Filter objects by regex pattern")
 @click.option("--private", help="Whether to use private or public bucket", default=False)
-def list(prefix: str, pattern: str, private: str):
+@click.option("--count", type=int, help="Limit the number of objects to fetch")
+@click.option("--all", is_flag=True, help="Fetch all pages (default: only first page)")
+def list(prefix: str, pattern: str, private: str, count: int, all: bool):
     """List objects in the R2 bucket.
 
     \b
@@ -171,6 +173,8 @@ def list(prefix: str, pattern: str, private: str):
         $ r2 list --pattern "\\.png$"
         $ r2 list --prefix photos/ --pattern "\\.jpg$"
         $ r2 list --private
+        $ r2 list --count 10
+        $ r2 list --all
     """
     r2 = get_r2_client()
     bucket, uri = get_r2_bucket(private)
@@ -179,20 +183,42 @@ def list(prefix: str, pattern: str, private: str):
         kwargs = {"Bucket": bucket}
         if prefix:
             kwargs["Prefix"] = prefix
+        if count:
+            kwargs["MaxKeys"] = count
 
-        response = r2.list_objects_v2(**kwargs)
-        if "Contents" in response:
-            objects = response["Contents"]
-            if pattern:
+        # Initialize an empty list to store all objects
+        all_objects = []
+
+        # Initialize pagination
+        paginator = r2.get_paginator("list_objects_v2")
+        page_iterator = paginator.paginate(**kwargs)
+
+        # Iterate through pages
+        for page in page_iterator:
+            if "Contents" in page:
+                all_objects.extend(page["Contents"])
+
+            # If not fetching all pages, break after first page
+            if not all:
+                break
+
+        # Apply regex pattern filtering if specified
+        if pattern:
+            try:
                 regex = re.compile(pattern)
-                objects = [obj for obj in objects if regex.search(obj["Key"])]
+                all_objects = [obj for obj in all_objects if regex.search(obj["Key"])]
+            except re.error as e:
+                click.echo(f"Invalid regex pattern: {e}", err=True)
+                sys.exit(1)
 
-            # Sort objects by LastModified in descending order
-            objects.sort(key=lambda x: x["LastModified"], reverse=True)
+        # Sort objects by LastModified in descending order
+        all_objects.sort(key=lambda x: x["LastModified"], reverse=True)
 
-            if objects:
-                for obj in objects:
-                    click.echo(f"{uri}/{obj['Key']}")
+        # Output results
+        if all_objects:
+            for obj in all_objects:
+                click.echo(f"{uri}/{obj['Key']}")
+
     except r2.exceptions.ClientError as e:
         click.echo(f"Error listing objects: {e}", err=True)
         sys.exit(1)
