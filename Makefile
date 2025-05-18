@@ -8,7 +8,6 @@ sync:
 	[ -f ~/.gitconfig ] || ln -fs $(PWD)/.gitconfig ~/.gitconfig
 	[ -f ~/.gitignore_global ] || ln -fs $(PWD)/.gitignore_global ~/.gitignore_global
 	[ -f ~/.tmux.conf ] || ln -fs $(PWD)/.tmux/.tmux.conf ~/.tmux.conf
-	[ -f ~/.config/karabiner.json ] || ln -fs $(PWD)/.karabiner.json ~/.config/karabiner.json
 
 	# don't show last login message
 	touch ~/.hushlogin
