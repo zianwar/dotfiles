@@ -26,11 +26,15 @@ Includes:
 3. Set up oh-my-zsh
 
    1. Pre-install
+
       ```bash
-      git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.dotfiles/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-      git clone https://github.com/zsh-users/zsh-autosuggestions ~/.dotfiles/oh-my-zsh/custom/plugins/zsh-autosuggestions
-      git clone https://github.com/zsh-users/zsh-completions ~/.dotfiles/oh-my-zsh/custom/plugins/zsh-completions
+      git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+      git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+      git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+      git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
+
       ```
+
    2. Install
       ```bash
       ~/.dotfiles/oh-my-zsh/tools/install.sh
