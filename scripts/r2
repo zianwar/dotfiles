@@ -201,6 +201,9 @@ def delete(key: str, private: bool):
             key = parsed_url.path[1:]
             query_params = parse_qs(parsed_url.query)
             pw = query_params["pw"][0] if "pw" in query_params else None
+            if private and not pw:
+                click.echo("pw must be specified when deleting a private obj", err=True)
+                sys.exit(1)
 
             if key:
                 try:
@@ -214,6 +217,10 @@ def delete(key: str, private: bool):
                     click.echo(f"Error deleting {uri}/{key}: {e}", err=True)
     else:
         try:
+            if private and not pw:
+                click.echo("pw must be specified when deleting a private obj", err=True)
+                sys.exit(1)
+
             r2.delete_object(Bucket=bucket, Key=key)
             click.echo(f"Deleted: {uri}/{key}")
         except r2.exceptions.ClientError as e:
