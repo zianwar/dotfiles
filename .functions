@@ -192,3 +192,7 @@ yt() {
     cat $output
 }
 
+# select_file
+sf() {
+  find . -maxdepth 1 -not -path '*/.*' -print0| xargs -0 gum choose
+}
