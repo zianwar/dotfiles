@@ -21,37 +21,18 @@ Includes:
 
    cd ~/.dotfiles && git submodule update --init
    make
+
+   ./setup.sh
    ```
 
-3. Set up oh-my-zsh
-
-   1. Pre-install
-
-      ```bash
-      git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-      git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-      git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-      git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-completions
-
-      ```
-
-   2. Install
-      ```bash
-      ~/.dotfiles/oh-my-zsh/tools/install.sh
-      ```
-   3. Re-open terminal
-
-4. zsh auto-completion
+3. zsh auto-completion
 
    - https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
 
-5. Homebrew
+4. Homebrew
    ```bash
    brew bundle # Installs what's listed in Brewfile
    ```
-6. Python
-
-   Using [Rye](https://github.com/astral-sh/rye)
 
 ### Apps I use not listed in [Brewfile](./Brewfile)
 
@@ -60,7 +41,3 @@ Includes:
 - Obsidian
 - Alfred
 - iTerm2
-
-#### Use TouchID with iTem
-
-- https://antkowiak.it/en/enable-touchid-for-sudo-in-iterm-2/
