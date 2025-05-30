@@ -1,6 +1,7 @@
 all: sync
 
 sync:
+	[ -f ~/.environment ] || ln -fs $(PWD)/.environment ~/.environment
 	[ -f ~/.zshrc ] || ln -fs $(PWD)/.zshrc ~/.zshrc
 	[ -f ~/.aliases ] || ln -fs $(PWD)/.aliases ~/.aliases
 	[ -f ~/.exports ] || ln -fs $(PWD)/.exports ~/.exports
@@ -16,6 +17,7 @@ clean:
 	rm -f ~/.zshrc
 	rm -f ~/.aliases
 	rm -f ~/.exports
+	rm -f ~/.environment
 	rm -f ~/.functions
 	rm -f ~/.gitconfig
 	rm -f ~/.gitignore_global

@@ -1,17 +1,7 @@
 #!/usr/bin/env sh
 
-# Compilation flags
-export ARCHFLAGS="-arch $(uname -m)"
-export BREW_PREFIX="$(brew --prefix)"
-
-# SSH key path
-export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Prefer US English and use UTF-8.
-export LANG=en_US.UTF-8
-export LC_ALL='en_US.UTF-8'
-export LSCOLORS=cxBxhxDxfxhxhxhxhxcxcx
-export CLICOLOR=1
+# Automatically remove duplicates from these arrays
+typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
 
 # support colors in less
 export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -22,55 +12,33 @@ export LESS_TERMCAP_so=$'\E[01;44;33m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 
-# Default terminal editor
-export EDITOR='nano'
+# fzf
+source <(fzf --zsh)
 
-## Command history configuration
-HISTFILE=$HOME/.zsh_history
-HISTSIZE=1000000000
-SAVEHIST=1000000000
+if [ -x "$(command -v brew)" ]; then
+    # GNU coretutils (those that come with macOS are outdated).
+    add_to_path "$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+    # GNU "sed"
+    add_to_path "$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
+    # GNU findutils
+    add_to_path "$(brew --prefix findutils)/libexec/gnubin:$PATH"
 
-setopt append_history
-setopt extended_history
-setopt hist_expire_dups_first
-# ignore duplication command history list
-setopt hist_ignore_dups
-setopt hist_ignore_space
-setopt hist_verify
-setopt inc_append_history
-
-# GNU coretutils (those that come with macOS are outdated).
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
-# GNU "sed"
-export PATH="$(brew --prefix gnu-sed)/libexec/gnubin:$PATH"
-# GNU findutils
-export PATH="$(brew --prefix findutils)/libexec/gnubin:$PATH"
-
-# # Go
-# export GOPATH=~/.go
-# export PATH="$PATH:$GOPATH/bin"
-# Golang environment variables
-
-export GOROOT=$(brew --prefix go)/libexec
-export GOPATH=$HOME/.go
-export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
+    # Go
+    export GOROOT=$(brew --prefix go)/libexec
+    export GOPATH=$HOME/.go
+    add_to_path "$GOPATH/bin" "$GOROOT/bin"
+fi
 
 # Rust
-export PATH="$PATH:$HOME/.cargo/bin"
-
-# Yarn global modules bin
-export PATH="$PATH:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin"
+if [ -f "$HOME/.cargo/env" ]; then
+    source "$HOME/.cargo/env"
+fi
 
 # pnpm
-export PNPM_HOME="/Users/anwar/Library/pnpm"
-case ":$PATH:" in
-*":$PNPM_HOME:"*) ;;
-*) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-# Android SDK platform tools (Flutter development)
-# export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
+if [ -d "$HOME/Library/pnpm" ]; then
+    export PNPM_HOME="$HOME/Library/pnpm"
+    add_to_path "$PNPM_HOME"
+fi
 
 # nvm: Node package manager
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
@@ -81,31 +49,20 @@ export NODE_REPL_HISTORY_FILE=~/.node_history
 # Allow 32³ entries; the default is 1000.
 export NODE_REPL_HISTORY_SIZE='32768'
 
-# Always enable colored `grep` output.
-export GREP_OPTIONS='--color=auto'
-
-# Include custom scripts
-export PATH="$PATH:$DOTFILES/scripts"
-
-# Include custom binaries in ~/.local/bin
-export PATH="$PATH:$HOME/.local/bin"
-
-# bun completions
-[ -s "/Users/anwar/.bun/_bun" ] && source "/Users/anwar/.bun/_bun"
-
 # bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# SelfControl.app CLI
-export PATH="$PATH:/Applications/SelfControl.app/Contents/MacOS"
+if [ -f "$HOME/.bun" ]; then
+    export BUN_INSTALL="$HOME/.bun"
+    add_to_path "$BUN_INSTALL/bin"
+    # bun completions
+    [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+fi
 
 # UV python toolkit
-eval "$(uv generate-shell-completion zsh)"
-# UV tools
-export PATH="$PATH:$HOME/.local/share/uv/tools"
+if [ -x "$(command -v uv)" ]; then
+    eval "$(uv generate-shell-completion zsh)"
+    # UV tools
+    add_to_path "$HOME/.local/share/uv/tools"
+fi
 
-export EDITOR="code -w"
-
-# Automatically remove duplicates from these arrays
-typeset -U path PATH cdpath CDPATH fpath FPATH manpath MANPATH
+# Include custom binaries and scripts
+add_to_path "$HOME/.local/bin" "$DOTFILES/scripts"

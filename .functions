@@ -128,15 +128,6 @@ fh() {
   eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
 
-vscode_set_theme(){
-  if [ "$#" -ne 1 ]; then
-    printf "Usage:\n\n vscodetheme [theme]\n"
-    return 1
-  fi
-
-  sed -i -e 's/"workbench.colorTheme": ".*"/"workbench.colorTheme": \"'"$1"'\"/g' "$HOME/Library/Application Support/Code/User/settings.json"
-}
-
 # copies media from current folder to local Raspberry Pi
 sync_media() {
     # Parse the --no-delete flag
@@ -159,7 +150,7 @@ sync_media() {
   # If a file is chosen, display the selection
   if [ -n "$file" ]; then
       echo "Syncing $(gum style --foreground 212 "$file")"
-      rsync -r --progress "$file" "anwar@rpi4.local:/mnt/storage/media/${file_kind}s"
+      rsync -r --progress "$file" "anwar@rpi5.local:/mnt/media/${file_kind}s"
       if [ $? -eq 0 ]; then
         if [ "$no_delete" = false ]; then
           trash $file && echo "Moved file to trash $(gum style --foreground 212 "$file")"

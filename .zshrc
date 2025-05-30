@@ -1,35 +1,21 @@
-# If you come from bash you might have to change your $PATH.
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin
+if [ -f "$HOME/.environment" ]; then
+	source "$HOME/.environment"
+fi
 
-# Path to oh-my-zsh installation.
-export DOTFILES=$HOME/.dotfiles
+# --- oh-my-zsh
 export ZSH="$DOTFILES/oh-my-zsh"
 export ZSH_CUSTOM=$ZSH/custom
 
-# oh-my-zsh config
-ZSH_THEME="awesomepanda" # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 CASE_SENSITIVE="false"
 DISABLE_AUTO_UPDATE="false"
 DISABLE_MAGIC_FUNCTIONS="true" # this prevents auto-escaping of urls and other "magic" stuff in $ZSH/lib/misc.zsh
-
-# Initialize homebrew
-eval $(/opt/homebrew/bin/brew shellenv)
-
-# Homebrew Shell Completions in zsh
-# https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+ZSH_THEME="dpoggi"             # (awesomepanda) https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 
 # oh-my-zsh plugins
 plugins=(
-	copybuffer # cltr-o to copy terminal buffer
-	dirhistory # navigate cwd using keyboard
 	fzf
 	git
 	history
-	httpie
-	macos
-	ripgrep
-	sudo # Easily prefix your current or previous commands with sudo by pressing esc twice.
 	zsh-autosuggestions
 	zsh-completions
 	zsh-syntax-highlighting
@@ -44,16 +30,3 @@ for file in $DOTFILES/.{exports,aliases,functions,secret}; do
 	test -e $file && source "$file"
 done
 unset file
-
-# iTerm2 shell integration
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# fzf
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source <(fzf --zsh)
-
-# Rust
-source "$HOME/.cargo/env"
-
-# bun completions
-[ -s "/Users/anwar/.bun/_bun" ] && source "/Users/anwar/.bun/_bun"
