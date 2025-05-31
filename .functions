@@ -163,15 +163,6 @@ sync_media() {
   fi
 }
 
-# Create an alias in the form: alias template_name="llm --template template_name"
-llm_templates=$(llm templates | awk '{print $1}')
-while IFS= read -r template_name; do
-    if [[ -n "$template_name" ]]; then
-        alias_command="alias $template_name='llm --template $template_name'"
-        eval "$alias_command"
-    fi
-done <<< "$llm_templates"
-
 
 yt() {
     video_link="$1"
