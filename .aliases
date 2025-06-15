@@ -101,3 +101,7 @@ alias map="xargs -n1"
 
 # tmux default session
 alias tx="tmux a -t main || tmux new -s main"
+
+# Docker
+alias d="docker"
+alias dc="docker compose"

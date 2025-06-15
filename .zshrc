@@ -16,6 +16,7 @@ fi
 
 # oh-my-zsh plugins
 plugins=(
+	docker
 	fzf
 	git
 	history
