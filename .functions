@@ -178,3 +178,14 @@ yt() {
 sf() {
   find . -maxdepth 1 -not -path '*/.*' -print0| xargs -0 gum choose
 }
+
+# Removes dependencies from Brewfile and leaves only top level packages
+# takes brew file path as an argument
+clean_brewfile() {
+  if [ -z "$1" ]; then
+    echo "Usage: clean_brewfile [Brewfile path]"
+    return 1
+  fi
+  cat $1 | grep -E "$(brew leaves | xargs printf '"%s"|')tap|cask" > Brewfile.leaves
+  echo "Cleaned Brewfile saved to Brewfile.leaves"
+}

@@ -12,32 +12,38 @@ Includes:
 
 ## Install
 
-1. Install Homebrew
-   https://brew.sh/
-2. Clone this repo
+- **Clone this repo**
+
+  ```bash
+  git clone git@github.com:zianwar/dotfiles.git ~/.dotfiles
+  cd ~/.dotfiles
+  git submodule update --init
+  ```
+
+- **Run setup script**
+
+  ```bash
+  ./setup.sh install   # Install required plugins and packages
+  ./setup.sh sync      # Symlink dotfiles into ~/
+  ```
+
+1. **zsh auto-completion (optional)**
+   Follow: [https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh](https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh)
+
+2. **Install Brewfile packages**
 
    ```bash
-   git clone git@github.com:zianwar/dotfiles.git ~/.dotfiles
-
-   cd ~/.dotfiles && git submodule update --init
-   make
-
-   ./setup.sh
+   brew bundle   # Installs what's listed in Brewfile
    ```
 
-3. zsh auto-completion
+## Clean up
 
-   - https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
+To remove all linked dotfiles:
 
-4. Homebrew
-   ```bash
-   brew bundle # Installs what's listed in Brewfile
-   ```
+```bash
+./setup.sh clean
+```
+
+---
 
 ### Apps I use not listed in [Brewfile](./Brewfile)
-
-### Manual Backups (TODO)
-
-- Obsidian
-- Alfred
-- iTerm2
