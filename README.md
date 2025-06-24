@@ -16,7 +16,7 @@ Includes:
   One line install script:
 
   ```bash
-  curl -sSL https://anw.sh/get-dotfiles.sh | bash
+  curl -sSL https://pub.anw.sh/get-dotfiles.sh | bash
   ```
 
 - **Clone this repo**
