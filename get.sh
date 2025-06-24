@@ -36,3 +36,9 @@ run_cmd ./setup.sh clean --force
 run_cmd ./setup.sh install
 run_cmd ./setup.sh sync
 run_cmd ./setup.sh install-packages
+
+# Set zsh as the default shell if not already
+if [ "$SHELL" != "/bin/zsh" ]; then
+    echo "Setting zsh as default shell..."
+    chsh -s /bin/zsh
+fi
