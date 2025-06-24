@@ -12,6 +12,13 @@ Includes:
 
 ## Install
 
+- **Quick install**
+  One line install script:
+
+  ```bash
+  curl -sSL https://anw.sh/get-dotfiles.sh | bash
+  ```
+
 - **Clone this repo**
 
   ```bash
