@@ -40,5 +40,7 @@ run_cmd ./setup.sh install-packages
 # Set zsh as the default shell if not already
 if [ "$SHELL" != "/bin/zsh" ]; then
     echo "Setting zsh as default shell..."
-    chsh -s /bin/zsh
+    run_cmd chsh -s "$(command -v zsh)"
 fi
+
+echo "Please reload your terminal to apply changes."

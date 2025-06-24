@@ -8,7 +8,7 @@ if [[ "$PWD" != "$HOME/.dotfiles" ]]; then
 fi
 
 # Define packages to be installed for ubuntu here, for macOS they are listed in ./Brewfile
-UBUNTU_PACKAGES=(fzf eza)
+UBUNTU_PACKAGES=(zsh fzf eza)
 
 sync() {
   [ -f ~/.environment ] || ln -fs "$PWD/.environment" ~/.environment
@@ -82,7 +82,6 @@ install_zsh_plugins() {
   git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
   git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM/plugins/zsh-completions"
   git clone https://github.com/Aloxaf/fzf-tab "$ZSH_CUSTOM/plugins/fzf-tab"
-  git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 }
 case "$1" in
 sync)
