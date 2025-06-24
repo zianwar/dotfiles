@@ -3,7 +3,7 @@
 # ================================================================
 # This script clones the dotfiles repository and runs the setup script.
 # It is intended to be run on a fresh system using curl:
-# curl -sSL https://anw.sh/get-dotfiles.sh | bash
+# curl -sSL https://pub.anw.sh/get-dotfiles.sh | bash
 # ================================================================
 
 set -e
@@ -15,7 +15,7 @@ if [ ! -d "$HOME/.dotfiles" ]; then
     git clone git@github.com:zianwar/dotfiles.git "$HOME/.dotfiles"
 else
     echo "Dotfiles already exist in ~/.dotfiles. Exiting."
-    exit 1
+    # exit 1
 fi
 
 cd "$HOME/.dotfiles"
@@ -26,7 +26,7 @@ git submodule update --init
 chmod +x setup.sh
 
 # Run main dotfiles setup script
-./setup.sh clean
+./setup.sh clean --force
 ./setup.sh install
 ./setup.sh sync
 ./setup.sh install-packages

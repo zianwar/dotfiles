@@ -25,23 +25,32 @@ sync() {
 }
 
 clean() {
-  echo "Are you sure you want to remove all linked dotfiles from your home directory? [y/N]"
-  read -r confirm
-  if [[ "$confirm" =~ ^[Yy]$ ]]; then
-    rm -f ~/.environment
-    rm -f ~/.zshrc
-    rm -f ~/.aliases
-    rm -f ~/.exports
-    rm -f ~/.functions
-    rm -f ~/.tmux.conf
+  force=0
+  for arg in "$@"; do
+    if [[ "$arg" == "--force" ]]; then
+      force=1
+    fi
+  done
 
-    rm -f ~/.gitconfig
-    rm -f ~/.gitignore_global
-    rm -f ~/.ripgreprc
-    echo "Cleanup complete."
-  else
-    echo "Aborted."
+  if [[ $force -eq 0 ]]; then
+    echo "Are you sure you want to remove all linked dotfiles from your home directory? [y/N]"
+    read -r confirm
+    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+      echo "Aborted."
+      return
+    fi
   fi
+
+  rm -f ~/.environment
+  rm -f ~/.zshrc
+  rm -f ~/.aliases
+  rm -f ~/.exports
+  rm -f ~/.functions
+  rm -f ~/.tmux.conf
+  rm -f ~/.gitconfig
+  rm -f ~/.gitignore_global
+  rm -f ~/.ripgreprc
+  echo "Cleanup complete."
 }
 
 install_packages() {
