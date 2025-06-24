@@ -8,25 +8,31 @@
 
 set -e
 
+run_cmd() {
+    echo "+ $*"
+    "$@"
+    echo ""
+}
+
 echo "Cloning dotfiles into ~/.dotfiles..."
 
 # Clone if not already there
 if [ ! -d "$HOME/.dotfiles" ]; then
-    git clone git@github.com:zianwar/dotfiles.git "$HOME/.dotfiles"
+    run_cmd git clone git@github.com:zianwar/dotfiles.git "$HOME/.dotfiles"
 else
     echo "Dotfiles already exist in ~/.dotfiles. Exiting."
     # exit 1
 fi
 
-cd "$HOME/.dotfiles"
+run_cmd cd "$HOME/.dotfiles"
 echo "Cloning submodules..."
-git submodule update --init
+run_cmd git submodule update --init
 
 # Make main setup script executable
-chmod +x setup.sh
+run_cmd chmod +x setup.sh
 
 # Run main dotfiles setup script
-./setup.sh clean --force
-./setup.sh install
-./setup.sh sync
-./setup.sh install-packages
+run_cmd ./setup.sh clean --force
+run_cmd ./setup.sh install
+run_cmd ./setup.sh sync
+run_cmd ./setup.sh install-packages
