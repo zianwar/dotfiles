@@ -8,7 +8,7 @@ if [[ "$PWD" != "$HOME/.dotfiles" ]]; then
 fi
 
 # Define packages to be installed for ubuntu here, for macOS they are listed in ./Brewfile
-UBUNTU_PACKAGES=(zsh fzf eza)
+UBUNTU_PACKAGES=(zsh fzf eza tree)
 
 sync() {
   [ -f ~/.environment ] || ln -fs "$PWD/.environment" ~/.environment
@@ -60,6 +60,15 @@ install_packages() {
     echo "Running on Linux OS. Installing packages using apt..."
     sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
     sudo apt install -y "${UBUNTU_PACKAGES[@]}"
+
+    # Install UV
+    echo "Installing uv (python package manager)"
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    # Install Ctop
+    sudo wget https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.7-linux-amd64 -O /usr/local/bin/ctop
+    sudo chmod +x /usr/local/bin/ctop
+
   elif [[ "$OSTYPE" == "darwin"* ]]; then
     echo "Running on macOS. Installing packages using Homebrew..."
     if ! command -v brew >/dev/null; then
