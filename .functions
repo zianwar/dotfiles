@@ -163,6 +163,12 @@ sync_media() {
   fi
 }
 
+# fzf directory change
+cdf() {
+  local dir
+  dir=$(find "$1" -type d -print 2>/dev/null | fzf)
+  [[ -n "$dir" ]] && cd "$dir"
+}
 
 yt() {
     video_link="$1"
