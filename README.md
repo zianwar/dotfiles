@@ -22,7 +22,7 @@ Includes:
 - **Clone this repo**
 
   ```bash
-  git clone git@github.com:zianwar/dotfiles.git ~/.dotfiles
+  git clone https://github.com/zianwar/dotfiles.git ~/.dotfiles
   cd ~/.dotfiles
   git submodule update --init
   ```

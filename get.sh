@@ -18,7 +18,7 @@ echo "Cloning dotfiles into ~/.dotfiles..."
 
 # Clone if not already there
 if [ ! -d "$HOME/.dotfiles" ]; then
-    run_cmd git clone git@github.com:zianwar/dotfiles.git "$HOME/.dotfiles"
+    run_cmd git clone https://github.com/zianwar/dotfiles.git "$HOME/.dotfiles"
 else
     echo "Dotfiles already exist in ~/.dotfiles. Exiting."
     # exit 1
