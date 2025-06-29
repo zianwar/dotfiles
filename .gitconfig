@@ -145,9 +145,8 @@ pushInsteadOf = "git://gist.github.com/"
 insteadOf = "gist:"
 
 [user]
-email = anwar@ziawnar.com
 username = zianwar
-name = Anwar Ziani
+name = Anwar
 
 [filter "lfs"]
 clean = git-lfs clean -- %f
