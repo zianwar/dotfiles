@@ -205,5 +205,9 @@ tgnotify() {
     echo "Usage: tgnotify [message]"
     return 1
   fi
-  curl -s -w "\n" --get --data-urlencode "text=$1" "$TELEGRAM_WEBHOOK"
+  response=$(curl -s --get --data-urlencode "text=$1" "$TELEGRAM_WEBHOOK")
+  if echo "$response" | grep -qi "error"; then
+    echo "$response"
+    return 1
+  fi
 }
