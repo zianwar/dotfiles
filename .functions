@@ -195,3 +195,15 @@ clean_brewfile() {
   cat $1 | grep -E "$(brew leaves | xargs printf '"%s"|')tap|cask" > Brewfile.leaves
   echo "Cleaned Brewfile saved to Brewfile.leaves"
 }
+
+tgnotify() {
+  if [ -z "$TELEGRAM_WEBHOOK" ]; then
+    echo "Error: TELEGRAM_WEBHOOK is not set"
+    return 1
+  fi
+  if [ -z "$1" ]; then
+    echo "Usage: tgnotify [message]"
+    return 1
+  fi
+  curl -s -w "\n" --get --data-urlencode "text=$1" "$TELEGRAM_WEBHOOK"
+}
